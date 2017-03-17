@@ -80,6 +80,9 @@
     <footer></footer>
 </body>
 <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/esri-leaflet@2.0.7"></script>
+    <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.3/dist/esri-leaflet-geocoder.css">
+  <script src="https://unpkg.com/esri-leaflet-geocoder@2.2.3"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="data\power-plants.js"></script>
@@ -96,6 +99,20 @@
     });
 
     tiles.addTo(map);
+
+  var searchControl = L.esri.Geocoding.geosearch().addTo(map);
+
+  var results = L.layerGroup().addTo(map);
+    console.log(results);
+
+  searchControl.on('results', function(data){
+    results.clearLayers();
+      console.log(data.results);
+//    for (var i = data.results.length - 1; i >= 0; i--) {
+//      results.addLayer(L.marker(data.results[i].latlng));
+//    }
+  });
+
     //d3.select("h2").text(d.properties.plant_name);
 
     //Validate number input for buffer radius.
@@ -114,7 +131,7 @@
         return true;
     }
     //console.log($(".buffInput").val());
-    console.log($(".Layout-right"));
+    //console.log($(".Layout-right"));
 
     var commonStyles = {
         weight: 1,
