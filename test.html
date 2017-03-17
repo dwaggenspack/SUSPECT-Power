@@ -32,12 +32,13 @@
         .Layout-nav,
         .Layout-right {
             /* 12em is the width of the columns */
-            flex: 0 0 20em;
+            flex: 0 0 15em;
             
         }
         .Layout-right {
             overflow:auto;
             max-height: 90vh;
+            max-width: 
         }
         
         .Layout-nav {
@@ -49,6 +50,10 @@
             height: 540px;
             margin: 10px auto;
         }
+        .buffInput{
+            width: 4em;
+            
+        }
 
     </style>
 </head>
@@ -59,12 +64,13 @@
     </header>
     <div class="Layout-body">
         <div class="Layout-center">
-            <div id="map"></div>
             <div>
                 <label>Distance you wish to search in Miles:</label>
                 <!--Paste is not available on this input!!!-->
-                <input class="buffInput" type="number" name="someid" value=500 onkeypress="return isNumberKey(event)" onpaste="return false" maxlength="6" size="4"/>
+                <input class="buffInput" type="number" name="someid" value=250 onkeypress="return isNumberKey(event)" onpaste="return false"/>
             </div>
+            <div id="map"></div>
+            
         </div>
         <div class="Layout-nav">…</div>
         <div class="Layout-right"></div>
@@ -181,8 +187,8 @@
         map.on('click', function (e) {
             
             //variable to hold buffer distance entered
-            var bufferKm = $(".buffInput").val() * 1.60934;
-            
+            var bufferKm = $(".buffInput").val() * 1.609344;
+            $(".Layout-right").html("");
             SpotGroup.clearLayers();
             //create an object to hold the totals to use in the spotlight popup.
             var spotTots = {};
@@ -204,6 +210,7 @@
 
                         });
                         layer.bindPopup(buildPopup(layer.feature.properties, distance));
+                        $('.Layout-right').append(buildPopup(layer.feature.properties, distance));
 
                         for (var key in layer.feature.properties.fuel_source) {
                             //makes it so that the SpotTots[key] does not read as NaN
@@ -236,9 +243,9 @@
 
             // declare and define popup here
             var popup = "<div class='" + "" + "'><b>" + plantProp.plant_name + "</b>" +
-                fuelSourceStr + "</div>";
+                fuelSourceStr;
 
-            popup += "Plant is <b>" + distance.toLocaleString() + "km</b> from the click point.";
+            popup += "<br>Plant is <b>" + (distance*0.62137119).toLocaleString() + "miles</b> from the original point.</div><br>";
             return popup;
         }
 
