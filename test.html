@@ -6,10 +6,14 @@
     <title>Super United States Power Emission Cartographic Test</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
     <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 
     <style>
+        .header {
+            max-height: 10vh;
+        }
+        
         .Layout {
             display: flex;
             min-height: 90vh;
@@ -36,6 +40,11 @@
             /* put the nav on the left */
             order: -1;
         }
+        
+        #map {
+            height: 540px;
+            margin: 10px auto;
+        }
     </style>
 </head>
 
@@ -44,15 +53,21 @@
         <h1>Super United States Power Emission Cartographic Test</h1>
     </header>
     <div class="Layout-body">
-        <div id="map" class="Layout-center">
-            <div>test</div>
+        <div class="Layout-center">
+            <div id="map">test</div>
+            <div>
+                <label>Distance you wish to search in Miles:</label>
+                <input class="bufferRad" type="number" name="someid" onkeypress="return isNumberKey(event)"/>
+                
+            </div>
+
         </div>
         <div class="Layout-nav">…</div>
         <div class="Layout-right">…</div>
     </div>
     <footer>…</footer>
 </body>
-<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 <script>
     var map = L.map('map', {
         center: [36, -94],
@@ -66,6 +81,19 @@
     });
 
     tiles.addTo(map);
+
+    //Validate number input for buffer radius.
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        console.log(event);
+        if (charCode > 31 && (charCode != 46 && (charCode < 48 || charCode > 57))) {
+            return false;
+        }
+        if (charCode == 46 && event.srcElement.value.indexOf('.') > -1) {
+            return false;
+        }
+        return true;
+    }
 </script>
 
 </html>
