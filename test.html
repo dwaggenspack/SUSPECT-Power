@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Super United States Power Emission Cartographic Test</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+
+    <style>
+        .Layout {
+            display: flex;
+            min-height: 90vh;
+            flex-direction: column;
+            background-color: aqua
+        }
+        
+        .Layout-body {
+            display: flex;
+            flex: 1;
+        }
+        
+        .Layout-center {
+            flex: 1;
+        }
+        
+        .Layout-nav,
+        .Layout-right {
+            /* 12em is the width of the columns */
+            flex: 0 0 20em;
+        }
+        
+        .Layout-nav {
+            /* put the nav on the left */
+            order: -1;
+        }
+    </style>
+</head>
+
+<body class="Layout">
+    <header>
+        <h1>Super United States Power Emission Cartographic Test</h1>
+    </header>
+    <div class="Layout-body">
+        <div id="map" class="Layout-center">
+            <div>test</div>
+        </div>
+        <div class="Layout-nav">…</div>
+        <div class="Layout-right">…</div>
+    </div>
+    <footer>…</footer>
+</body>
+<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map', {
+        center: [36, -94],
+        zoom: 4,
+    });
+
+    var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+        subdomains: 'abcd',
+        maxZoom: 19
+    });
+
+    tiles.addTo(map);
+</script>
+
+</html>
