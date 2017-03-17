@@ -3,7 +3,7 @@
 
 <head>
     <meta charset=utf-8 />
-    <title>Super United States Power Emission Cartographic Test</title>
+    <title>S.U.S.P.E.C.T</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
@@ -33,12 +33,13 @@
         .Layout-right {
             /* 12em is the width of the columns */
             flex: 0 0 15em;
-            
         }
+        
         .Layout-right {
-            overflow:auto;
+            overflow: auto;
             max-height: 90vh;
-            max-width: 
+            border-left: solid;
+            border-width: 1px;
         }
         
         .Layout-nav {
@@ -50,9 +51,9 @@
             height: 540px;
             margin: 10px auto;
         }
-        .buffInput{
+        
+        .buffInput {
             width: 4em;
-            
         }
 
     </style>
@@ -67,20 +68,20 @@
             <div>
                 <label>Distance you wish to search in Miles:</label>
                 <!--Paste is not available on this input!!!-->
-                <input class="buffInput" type="number" name="someid" value=250 onkeypress="return isNumberKey(event)" onpaste="return false"/>
+                <input class="buffInput" type="number" name="someid" value=250 onkeypress="return isNumberKey(event)" onpaste="return false" />
             </div>
             <div id="map"></div>
-            
+
         </div>
         <div class="Layout-nav">…</div>
         <div class="Layout-right"></div>
     </div>
-    <footer>…</footer>
+    <footer></footer>
 </body>
 <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-    <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="data\power-plants.js"></script>
+<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="data\power-plants.js"></script>
 <script>
     var map = L.map('map', {
         center: [36, -94],
@@ -98,7 +99,7 @@
 
     //Validate number input for buffer radius.
     function isNumberKey(evt) {
-        
+
         var charCode = (evt.which) ? evt.which : event.keyCode
         //Make sure the character entered is a number or decimal
         if (charCode > 31 && (charCode != 46 && (charCode < 48 || charCode > 57))) {
@@ -113,152 +114,154 @@
     }
     //console.log($(".buffInput").val());
     console.log($(".Layout-right"));
-    
-     var commonStyles = {
-            weight: 1,
-            stroke: 1,
-            fillOpacity: .7
+
+    var commonStyles = {
+        weight: 1,
+        stroke: 1,
+        fillOpacity: .7
+    }
+
+    //info for all the layers used.  Chose primary colors of light for best contrast between sources of power
+    var layerInfo = {
+        coalLayer: {
+            source: "Coal",
+            color: '#dd0000'
+        },
+        hydroLayer: {
+            source: "Hydro",
+            color: '#0000dd'
+        },
+        windLayer: {
+            source: "Wind",
+            color: '#00dd00'
         }
+    };
 
-        //info for all the layers used.  Chose primary colors of light for best contrast between sources of power
-        var layerInfo = {
-            coalLayer: {
-                source: "Coal",
-                color: '#dd0000'
+
+
+    var geoJsonLayers = {};
+
+    //Loop through al of the layers and add the data for the plants with the appropriate fuel source.
+    for (var layer in layerInfo) {
+        geoJsonLayers[layer] = L.geoJson(plants, {
+            pointToLayer: function(feature, latlng) {
+                return L.circleMarker(latlng, commonStyles);
             },
-            hydroLayer: {
-                source: "Hydro",
-                color: '#0000dd'
-            },
-            windLayer: {
-                source: "Wind",
-                color: '#00dd00'
-            }
-        };
-
-
-
-        var geoJsonLayers = {};
-
-        //Loop through al of the layers and add the data for the plants with the appropriate fuel source.
-        for (var layer in layerInfo) {
-            geoJsonLayers[layer] = L.geoJson(plants, {
-                pointToLayer: function (feature, latlng) {
-                    return L.circleMarker(latlng, commonStyles);
-                },
-                filter: function (feature) {
-                    if (feature.properties.fuel_source[layerInfo[layer].source]) {
-                        return feature;
-                    }
-                },
-                style: function (feature) {
-                    return {
-                        color: layerInfo[layer].color,
-                        fillColor: layerInfo[layer].color,
-                        radius: getRadius(feature.properties.fuel_source[layerInfo[layer].source])
-                    }
+            filter: function(feature) {
+                if (feature.properties.fuel_source[layerInfo[layer].source]) {
+                    return feature;
                 }
-            }).addTo(map);
-        }
-
-        //function used to calculate proportional radius based on fuel capacity
-        function getRadius(val) {
-            var radius = Math.sqrt(val / Math.PI);
-            return radius * .7;
-        }
-
-        //labels for the TOC
-        var sourcesLabels = {
-            "<b style='color:#dd0000'>Coal</b>": geoJsonLayers.coalLayer,
-            "<b style='color:#0000dd'>Hydro</b>": geoJsonLayers.hydroLayer,
-            "<b style='color:#00dd00'>Wind</b>": geoJsonLayers.windLayer
-        }
-
-        //Add TOC to the Map
-        L.control.layers(null, sourcesLabels, {
-            collapsed: false
+            },
+            style: function(feature) {
+                return {
+                    color: layerInfo[layer].color,
+                    fillColor: layerInfo[layer].color,
+                    //radius: getRadius(feature.properties.fuel_source[layerInfo[layer].source])
+                    radius:5
+                }
+            }
         }).addTo(map);
+    }
+
+    //function used to calculate proportional radius based on fuel capacity
+    function getRadius(val) {
+        var radius = Math.sqrt(val / Math.PI);
+        return radius * .7;
+    }
+
+    //labels for the TOC
+    var sourcesLabels = {
+        "<b style='color:#dd0000'>Coal</b>": geoJsonLayers.coalLayer,
+        "<b style='color:#0000dd'>Hydro</b>": geoJsonLayers.hydroLayer,
+        "<b style='color:#00dd00'>Wind</b>": geoJsonLayers.windLayer
+    }
+
+    //Add TOC to the Map
+    L.control.layers(null, sourcesLabels, {
+        collapsed: false
+    }).addTo(map);
 
 
-        //feature group for the spotlight so that we can clear the old spotlight when a new click is performed
-        var SpotGroup = L.featureGroup().addTo(map);
+    //feature group for the spotlight so that we can clear the old spotlight when a new click is performed
+    var SpotGroup = L.featureGroup().addTo(map);
 
-        //click function for the map. Performs a 500km buffer query and shows only plants that fall within that buffer.
-        map.on('click', function (e) {
-            
-            //variable to hold buffer distance entered
-            var bufferKm = $(".buffInput").val() * 1.609344;
-            $(".Layout-right").html("");
-            SpotGroup.clearLayers();
-            //create an object to hold the totals to use in the spotlight popup.
-            var spotTots = {};
-            
+    //click function for the map. Performs a 500km buffer query and shows only plants that fall within that buffer.
+    map.on('click', function(e) {
 
-            for (var layer in layerInfo) {
-                geoJsonLayers[layer].eachLayer(function (layer) {
-                    var distance = e.latlng.distanceTo(layer.getLatLng()) / 1000;
+        //variable to hold buffer distance entered
+        var bufferKm = $(".buffInput").val() * 1.609344;
+        $(".Layout-right").html("");
+        SpotGroup.clearLayers();
+        //create an object to hold the totals to use in the spotlight popup.
+        var spotTots = {};
 
-                    if (distance > bufferKm) {
-                        layer.setStyle({
-                            stroke: false,
-                            fill: false
-                        });
-                    } else {
-                        layer.setStyle({
-                            stroke: true,
-                            fill: true
 
-                        });
-                        layer.bindPopup(buildPopup(layer.feature.properties, distance));
-                        $('.Layout-right').append(buildPopup(layer.feature.properties, distance));
 
-                        for (var key in layer.feature.properties.fuel_source) {
-                            //makes it so that the SpotTots[key] does not read as NaN
-                            //Otherwise it will not do the totals.
-                            spotTots[key] = spotTots[key] ? spotTots[key] : 0;
-                            //total the fuel source
-                            spotTots[key] += layer.feature.properties.fuel_source[key];
-                        }
+        for (var layer in layerInfo) {
+            geoJsonLayers[layer].eachLayer(function(layer) {
+                var distance = e.latlng.distanceTo(layer.getLatLng()) / 1000;
 
-                    };
-                });
+                if (distance > bufferKm) {
+                    layer.setStyle({
+                        stroke: false,
+                        fill: false
+                    });
+                } else {
+                    layer.setStyle({
+                        stroke: true,
+                        fill: true
 
-                var spotlight = L.circle(e.latlng, {
-                    radius: (bufferKm*1000),
-                    color: '#f0f0f0',
-                    stroke: false
-                }).bindPopup(buildSpotPopup(spotTots)).addTo(SpotGroup).bringToBack().openPopup();
-            };
-        });
+                    });
+                    layer.bindPopup(buildPopup(layer.feature.properties, distance));
+                    $('.Layout-right').append(buildPopup(layer.feature.properties, distance));
 
-        //function to build the popup for the plants
-        function buildPopup(plantProp, distance) {
-            //create a string for multiple fuel types
-            var fuelSourceStr = "";
-            //go through the keys for fuels source and build the string to show the power capacity for multiple fuel types.
-            for (var key in plantProp.fuel_source) {
-                //console.log(key, plantProp.fuel_source[key]);
-                fuelSourceStr += "<br><b>" + key + "</b>: " + plantProp.fuel_source[key] + " MW"
-            }
+                    for (var key in layer.feature.properties.fuel_source) {
+                        //makes it so that the SpotTots[key] does not read as NaN
+                        //Otherwise it will not do the totals.
+                        spotTots[key] = spotTots[key] ? spotTots[key] : 0;
+                        //total the fuel source
+                        spotTots[key] += layer.feature.properties.fuel_source[key];
+                    }
 
-            // declare and define popup here
-            var popup = "<div class='" + "" + "'><b>" + plantProp.plant_name + "</b>" +
-                fuelSourceStr;
+                };
+            });
 
-            popup += "<br>Plant is <b>" + (distance*0.62137119).toLocaleString() + "miles</b> from the original point.</div><br>";
-            return popup;
+            var spotlight = L.circle(e.latlng, {
+                radius: (bufferKm * 1000),
+                color: '#f0f0f0',
+                stroke: false
+            }).bindPopup(buildSpotPopup(spotTots)).addTo(SpotGroup).bringToBack().openPopup();
+        };
+    });
+
+    //function to build the popup for the plants
+    function buildPopup(plantProp, distance) {
+        //create a string for multiple fuel types
+        var fuelSourceStr = "";
+        //go through the keys for fuels source and build the string to show the power capacity for multiple fuel types.
+        for (var key in plantProp.fuel_source) {
+            //console.log(key, plantProp.fuel_source[key]);
+            fuelSourceStr += "<br><b>" + key + "</b>: " + plantProp.fuel_source[key] + " MW"
         }
 
-        //build the popup for spotlight
-        function buildSpotPopup(plantTots) {
+        // declare and define popup here
+        var popup = "<div class='" + "" + "'><b>" + plantProp.plant_name + "</b>" +
+            fuelSourceStr;
 
-            var popup = "<b>Summary Statistics</b>";
-            //go through the keys for fuels source and build the string to show the power capacity for multiple fuel types.
-            for (var key in plantTots) {
-                popup += "<br><b>" + key + "</b>: " + plantTots[key].toLocaleString() + " MW"
-            }
-            return popup;
+        popup += "<br>Plant is <b>" + (distance * 0.62137119).toLocaleString() + "miles</b> from the original point.</div><br>";
+        return popup;
+    }
+
+    //build the popup for spotlight
+    function buildSpotPopup(plantTots) {
+
+        var popup = "<b>Summary Statistics</b>";
+        //go through the keys for fuels source and build the string to show the power capacity for multiple fuel types.
+        for (var key in plantTots) {
+            popup += "<br><b>" + key + "</b>: " + plantTots[key].toLocaleString() + " MW"
         }
+        return popup;
+    }
 
 </script>
 
