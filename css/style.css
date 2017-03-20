@@ -1,0 +1,45 @@
+.header {
+    max-height: 10vh;
+}
+
+.Layout {
+    display: flex;
+    min-height: 85vh;
+    flex-direction: column;
+}
+
+.Layout-body {
+    display: flex;
+    flex: 1;
+}
+
+.Layout-center {
+    flex: 1;
+}
+
+.Layout-nav,
+.Layout-right {
+    /* 12em is the width of the columns */
+    flex: 0 0 15em;
+}
+
+.Layout-right {
+    overflow: auto;
+    max-height: 91vh;
+    border-left: solid;
+    border-width: 1px;
+}
+
+.Layout-nav {
+    /* put the nav on the left */
+    order: -1;
+}
+
+#map {
+    height: 540px;
+    margin: 10px auto;
+}
+
+.buffInput {
+    width: 4em;
+}
