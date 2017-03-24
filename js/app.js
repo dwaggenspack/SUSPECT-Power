@@ -121,7 +121,9 @@
 
                     var fullPopup = buildPopup(layer.feature.properties, distance);
                     layer.bindPopup("<div>" + fullPopup + "</div><br>");
-                    $('.Layout-right').append("<div class='borderpop'>" + fullPopup + "</div><br>");
+
+                    $('.Layout-right').append("<div id='" + layer.feature.properties.plant_name +
+                                                "' class='borderpop'>" + fullPopup + "</div>");
 
                     for (var key in layer.feature.properties.fuel_source) {
                         //makes it so that the SpotTots[key] does not read as NaN
@@ -132,6 +134,30 @@
                     }
                 };
             });
+
+            $(".borderpop").click(function() {
+
+                var targetName = $(this).attr('id');
+
+                for (var layer in layerInfo) {
+                    geoJsonLayers[layer].eachLayer(function (layer) {
+                        if(layer.feature.properties.plant_name == targetName) {
+                            map.flyTo(layer.getLatLng(), 9)
+                            layer.setStyle({
+                                fillColor: 'yellow',
+                                radius: 15
+                            });
+                        } else {
+                            layer.setStyle({
+                                fillColor: '#0033A0',
+                                radius: 7
+                            });
+                        }
+                    });
+                }
+
+
+            })
             var spotlight = L.circle(chosenPoint.latlng, {
                 radius: (bufferKm * 1000),
                 color: '#303030',
