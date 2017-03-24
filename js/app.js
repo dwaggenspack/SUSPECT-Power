@@ -53,7 +53,7 @@ var commonStyles = {
 //info for all the layers used.  Chose primary colors of light for best contrast between sources of power
 var layerInfo = {
     powerLayer: {
-        
+
     }
 };
 
@@ -99,7 +99,7 @@ function spotlightSearch(chosenPoint) {
     SpotGroup.clearLayers();
     //create an object to hold the totals to use in the spotlight popup.
     var spotTots = {};
-    
+
     //count the number of features.
     var count = 0;
     for (var layer in layerInfo) {
@@ -117,11 +117,11 @@ function spotlightSearch(chosenPoint) {
                     stroke: true,
                     fill: true
                 });
-                
+
                 var fullPopup = buildPopup(layer.feature.properties, distance);
-                layer.bindPopup(fullPopup);
-                $('.Layout-right').append(fullPopup);
-                
+                layer.bindPopup("<div>" + fullPopup + "</div><br>");
+                $('.Layout-right').append("<div class='borderpop'>" + fullPopup + "</div><br>");
+
                 for (var key in layer.feature.properties.fuel_source) {
                     //makes it so that the SpotTots[key] does not read as NaN
                     //Otherwise it will not do the totals.
@@ -153,10 +153,10 @@ function buildPopup(plantProp, distance) {
     }
 
     // declare and define popup here
-    var popup = "<div class='" + "borderpop" + "'><b>" + plantProp.plant_name + "</b>" +
+    var popup = "<b>" + plantProp.plant_name + "</b>" +
         fuelSourceStr;
 
-    popup += "<br>Plant is <b>" + (distance * 0.62137119).toLocaleString() + " miles</b> from the original point.</div><br>";
+    popup += "<br>Plant is <b>" + (distance * 0.62137119).toLocaleString() + " miles</b> from the original point.";
     return popup;
 }
 

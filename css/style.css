@@ -1,13 +1,14 @@
-body{
+body {
     background-color: floralwhite;
     font-family: 'PT Serif', serif;
 }
 
-.header {
+header {
     max-height: 10vh;
+    background-color: darkgray;
 }
 
-h1{
+h1 {
     font-family: 'Source Serif Pro', serif;
 }
 
@@ -20,7 +21,6 @@ h1{
 .Layout-body {
     display: flex;
     flex: 1;
-    
 }
 
 .Layout-center {
@@ -30,14 +30,12 @@ h1{
 .Layout-nav,
 .Layout-right {
     /* 12em is the width of the columns */
-    flex: 0 0 15em;
+    flex: 0 0 20em;
 }
 
 .Layout-right {
     overflow: auto;
     max-height: 91vh;
-    
-    
 }
 
 .Layout-nav {
@@ -59,8 +57,12 @@ h1{
     border-radius: 5px;
     padding: 2px;
 }
+#totals {
+    padding: 5px;
+}
 
 .borderpop {
     border-top: solid;
     border-width: 1px;
+    padding: 5px;
 }
