@@ -1,3 +1,7 @@
+body{
+    background-color: darkgrey;
+}
+
 .header {
     max-height: 10vh;
 }
@@ -11,6 +15,7 @@
 .Layout-body {
     display: flex;
     flex: 1;
+    background-color: lightblue;
 }
 
 .Layout-center {

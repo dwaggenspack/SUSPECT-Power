@@ -1,6 +1,6 @@
 var map = L.map('map', {
         center: [36, -94],
-        zoom: 4,
+        zoom: 4
     });
 
     var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
@@ -26,8 +26,6 @@ var map = L.map('map', {
 //    }
   });
 
-    //d3.select("h2").text(d.properties.plant_name);
-
     //Validate number input for buffer radius.
     function isNumberKey(evt) {
 
@@ -43,11 +41,9 @@ var map = L.map('map', {
         //If it was a number or the first decimal point, say yes!
         return true;
     }
-    //console.log($(".buffInput").val());
-    //console.log($(".Layout-right"));
 
     var commonStyles = {
-        weight: 1,
+        weight: .2,
         stroke: 1,
         fillOpacity: .7
     }
@@ -56,16 +52,17 @@ var map = L.map('map', {
     var layerInfo = {
         coalLayer: {
             source: "Coal",
-            color: '#dd0000'
-        },
-        hydroLayer: {
-            source: "Hydro",
-            color: '#0000dd'
-        },
-        windLayer: {
-            source: "Wind",
-            color: '#00dd00'
+            //color: '#dd0000'
         }
+//            ,
+//        hydroLayer: {
+//            source: "Hydro",
+//            //color: '#0000dd'
+//        },
+//        windLayer: {
+//            source: "Wind",
+//            //color: '#00dd00'
+//        }
     };
 
 
@@ -78,15 +75,15 @@ var map = L.map('map', {
             pointToLayer: function(feature, latlng) {
                 return L.circleMarker(latlng, commonStyles);
             },
-            filter: function(feature) {
-                if (feature.properties.fuel_source[layerInfo[layer].source]) {
-                    return feature;
-                }
-            },
+//            filter: function(feature) {
+//                if (feature.properties.fuel_source[layerInfo[layer].source]) {
+//                    return feature;
+//                }
+//            },
             style: function(feature) {
                 return {
-                    color: layerInfo[layer].color,
-                    fillColor: layerInfo[layer].color,
+                    color: '#c8c8c7',
+                    fillColor: '#0033A0',
                     //radius: getRadius(feature.properties.fuel_source[layerInfo[layer].source])
                     radius:5
                 }
@@ -102,9 +99,10 @@ var map = L.map('map', {
 
     //labels for the TOC
     var sourcesLabels = {
-        "<b style='color:#dd0000'>Coal</b>": geoJsonLayers.coalLayer,
-        "<b style='color:#0000dd'>Hydro</b>": geoJsonLayers.hydroLayer,
-        "<b style='color:#00dd00'>Wind</b>": geoJsonLayers.windLayer
+        "<b style='color:#dd0000'>Coal</b>": geoJsonLayers.coalLayer
+//        ,
+//        "<b style='color:#0000dd'>Hydro</b>": geoJsonLayers.hydroLayer,
+//        "<b style='color:#00dd00'>Wind</b>": geoJsonLayers.windLayer
     }
 
     //Add TOC to the Map
@@ -125,10 +123,12 @@ var map = L.map('map', {
         function spotlightSearch(chosenPoint) {
             //variable to hold buffer distance entered
         var bufferKm = $(".buffInput").val() * 1.609344;
-        $(".Layout-right").html("");
+        $(".Layout-right").html("<div id='totals'></div><br>");
         SpotGroup.clearLayers();
         //create an object to hold the totals to use in the spotlight popup.
         var spotTots = {};
+            console.log(geoJsonLayers);
+            var count = 0;
         for (var layer in layerInfo) {
             geoJsonLayers[layer].eachLayer(function(layer) {
                 var distance = chosenPoint.latlng.distanceTo(layer.getLatLng()) / 1000;
@@ -138,6 +138,7 @@ var map = L.map('map', {
                         fill: false
                     });
                 } else {
+                    count++;
                     layer.setStyle({
                         stroke: true,
                         fill: true
@@ -160,7 +161,9 @@ var map = L.map('map', {
             }).bindPopup(buildSpotPopup(spotTots)).addTo(SpotGroup).bringToBack().openPopup();
             map.fitBounds(SpotGroup.getBounds(0));
         };
-    };
+            var totalstring = "There are <b>" + count + "</b> power plants that are <b>" + $(".buffInput").val() + " Miles</b> from the selected origin."
+     $("#totals").html(totalstring);
+        };
 
     //function to build the popup for the plants
     function buildPopup(plantProp, distance) {
