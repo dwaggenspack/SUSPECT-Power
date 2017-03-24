@@ -5,9 +5,8 @@
     <meta charset=utf-8 />
     <title>S.U.S.P.E.C.T</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
-    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=PT+Serif|Source+Serif+Pro" rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -18,12 +17,14 @@
     </header>
     <div class="Layout-body">
         <div class="Layout-center">
+            <div id="map"></div>
             <div>
                 <label>Distance you wish to search in Miles:</label>
                 <!--Paste is not available on this input!!!-->
                 <input class="buffInput" type="number" name="someid" value=100 onkeypress="return isNumberKey(event)" onpaste="return false" />
+                <br>
+                <button id="queryButton" type="button" onclick="spotlightSearch(currentLatLng)">Run/Update Query</button>
             </div>
-            <div id="map"></div>
 
         </div>
 <div class="Layout-nav">
@@ -35,7 +36,7 @@
     </ul>
     <p>All of the power plants in within your search area will be placed on the map as well as into the panel to the right!</p>
 </div>
-<div class="Layout-right"><div id='totals'>There are # of plants within ## of your chosen origin.</div></div>
+<div class="Layout-right"></div>
     </div>
     <footer></footer>
 </body>

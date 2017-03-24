@@ -1,9 +1,14 @@
 body{
-    background-color: darkgrey;
+    background-color: floralwhite;
+    font-family: 'PT Serif', serif;
 }
 
 .header {
     max-height: 10vh;
+}
+
+h1{
+    font-family: 'Source Serif Pro', serif;
 }
 
 .Layout {
@@ -15,7 +20,7 @@ body{
 .Layout-body {
     display: flex;
     flex: 1;
-    background-color: lightblue;
+    
 }
 
 .Layout-center {
@@ -31,8 +36,8 @@ body{
 .Layout-right {
     overflow: auto;
     max-height: 91vh;
-    border-left: solid;
-    border-width: 1px;
+    
+    
 }
 
 .Layout-nav {
@@ -43,8 +48,19 @@ body{
 #map {
     height: 540px;
     margin: 10px auto;
+    border: solid;
 }
 
 .buffInput {
     width: 4em;
+}
+
+#queryButton {
+    border-radius: 5px;
+    padding: 2px;
+}
+
+.borderpop {
+    border-top: solid;
+    border-width: 1px;
 }
