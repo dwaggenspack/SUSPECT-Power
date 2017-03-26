@@ -65,4 +65,5 @@ h1 {
     border-top: solid;
     border-width: 1px;
     padding: 5px;
+    cursor: pointer;
 }
