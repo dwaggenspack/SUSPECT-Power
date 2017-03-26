@@ -1,4 +1,4 @@
-(function(){
+(function () {
     var map = L.map('map', {
         center: [36, -94],
         zoom: 4
@@ -20,7 +20,6 @@
     var searchControl = L.esri.Geocoding.geosearch().addTo(map);
 
     var results = L.layerGroup().addTo(map);
-    //console.log(results);
 
     //function to handle the results of an address search
     searchControl.on('results', function (data) {
@@ -59,12 +58,15 @@
     };
 
     var geoJsonLayers = {};
+    var markerMap = {};
 
     //Loop through all of the layers and add the data for the plants.
     for (var layer in layerInfo) {
         geoJsonLayers[layer] = L.geoJson(plants, {
             pointToLayer: function (feature, latlng) {
-                return L.circleMarker(latlng, commonStyles);
+                var cMarker = new L.circleMarker(latlng, commonStyles);
+                markerMap[feature.properties.code] = cMarker;
+                return cMarker;
             },
             style: function (feature) {
                 return {
@@ -106,7 +108,6 @@
         for (var layer in layerInfo) {
             geoJsonLayers[layer].eachLayer(function (layer) {
                 var distance = chosenPoint.latlng.distanceTo(layer.getLatLng()) / 1000;
-                //console.log(layer);
                 if (distance > bufferKm) {
                     layer.setStyle({
                         stroke: false,
@@ -123,7 +124,7 @@
                     layer.bindPopup("<div>" + fullPopup + "</div><br>");
 
                     $('.Layout-right').append("<div id='" + layer.feature.properties.plant_name +
-                                                "' class='borderpop'>" + fullPopup + "</div>");
+                        "' class='borderpop' markerID='" + layer.feature.properties.code + "'>" + fullPopup + "</div>");
 
                     for (var key in layer.feature.properties.fuel_source) {
                         //makes it so that the SpotTots[key] does not read as NaN
@@ -135,29 +136,58 @@
                 };
             });
 
-            $(".borderpop").click(function() {
+//            $(".borderpop").click(function () {
+//
+//                var targetName = $(this).attr('id');
+//
+//                for (var layer in layerInfo) {
+//                    geoJsonLayers[layer].eachLayer(function (layer) {
+//                        if (layer.feature.properties.plant_name == targetName) {
+//                            map.flyTo(layer.getLatLng(), 9)
+//                            layer.setStyle({
+//                                fillColor: 'yellow',
+//                                radius: 15
+//                            });
+//                        } else {
+//                            layer.setStyle({
+//                                fillColor: '#0033A0',
+//                                radius: 7
+//                            });
+//                        }
+//                    });
+//                }
+//
+//
+//            });
 
-                var targetName = $(this).attr('id');
+            $(".borderpop").mouseover(function () {
+                //Get the id of the element clicked
+                var markID = $(this).attr('markerID');
+                var marker = markerMap[markID];
+                
+                map.flyTo(marker.getLatLng(), 9)
+                
+                $(this).addClass('divHighlight');
+                marker.setStyle({
+                    fillColor: 'yellow',
+                    radius: 15
+                });
 
-                for (var layer in layerInfo) {
-                    geoJsonLayers[layer].eachLayer(function (layer) {
-                        if(layer.feature.properties.plant_name == targetName) {
-                            map.flyTo(layer.getLatLng(), 9)
-                            layer.setStyle({
-                                fillColor: 'yellow',
-                                radius: 15
-                            });
-                        } else {
-                            layer.setStyle({
-                                fillColor: '#0033A0',
-                                radius: 7
-                            });
-                        }
-                    });
-                }
+            });
+            
+            $(".borderpop").mouseout(function () {
+                //Get the id of the element clicked
+                var markID = $(this).attr('markerID');
+                var marker = markerMap[markID];
+            
+                $(this).removeClass('divHighlight');
+                marker.setStyle({
+                    fillColor: '#0033A0',
+                    radius: 7
+                });
 
+            });
 
-            })
             var spotlight = L.circle(chosenPoint.latlng, {
                 radius: (bufferKm * 1000),
                 color: '#303030',
@@ -175,7 +205,7 @@
         var fuelSourceStr = "";
         //go through the keys for fuels source and build the string to show the power capacity for multiple fuel types.
         for (var key in plantProp.fuel_source) {
-            //console.log(key, plantProp.fuel_source[key]);
+
             fuelSourceStr += "<br><b>" + key + "</b>: " + plantProp.fuel_source[key] + " MW"
         }
 
