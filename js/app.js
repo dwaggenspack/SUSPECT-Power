@@ -19,6 +19,17 @@
     //add address search to the map
     var searchControl = L.esri.Geocoding.geosearch().addTo(map);
 
+    var slide = document.getElementById('slide'),
+        sliderDiv = document.getElementById("buffDist");
+
+    slide.oninput = function () {
+        sliderDiv.value = this.value;
+    };
+    slide.onchange = function () {
+        spotlightSearch(currentLatLng);
+    };
+    spotlightSearch
+
     var results = L.layerGroup().addTo(map);
 
     //function to handle the results of an address search
@@ -58,6 +69,8 @@
     };
 
     var geoJsonLayers = {};
+
+    //hold the makers for quick jquery lookup
     var markerMap = {};
 
     //Loop through all of the layers and add the data for the plants.
@@ -136,37 +149,37 @@
                 };
             });
 
-//            $(".borderpop").click(function () {
-//
-//                var targetName = $(this).attr('id');
-//
-//                for (var layer in layerInfo) {
-//                    geoJsonLayers[layer].eachLayer(function (layer) {
-//                        if (layer.feature.properties.plant_name == targetName) {
-//                            map.flyTo(layer.getLatLng(), 9)
-//                            layer.setStyle({
-//                                fillColor: 'yellow',
-//                                radius: 15
-//                            });
-//                        } else {
-//                            layer.setStyle({
-//                                fillColor: '#0033A0',
-//                                radius: 7
-//                            });
-//                        }
-//                    });
-//                }
-//
-//
-//            });
+            //            $(".borderpop").click(function () {
+            //
+            //                var targetName = $(this).attr('id');
+            //
+            //                for (var layer in layerInfo) {
+            //                    geoJsonLayers[layer].eachLayer(function (layer) {
+            //                        if (layer.feature.properties.plant_name == targetName) {
+            //                            map.flyTo(layer.getLatLng(), 9)
+            //                            layer.setStyle({
+            //                                fillColor: 'yellow',
+            //                                radius: 15
+            //                            });
+            //                        } else {
+            //                            layer.setStyle({
+            //                                fillColor: '#0033A0',
+            //                                radius: 7
+            //                            });
+            //                        }
+            //                    });
+            //                }
+            //
+            //
+            //            });
 
             $(".borderpop").mouseover(function () {
-                //Get the id of the element clicked
+                //Get the id of the marker
                 var markID = $(this).attr('markerID');
                 var marker = markerMap[markID];
-                
+
                 map.flyTo(marker.getLatLng(), 9)
-                
+
                 $(this).addClass('divHighlight');
                 marker.setStyle({
                     fillColor: 'yellow',
@@ -174,12 +187,12 @@
                 });
 
             });
-            
+
             $(".borderpop").mouseout(function () {
-                //Get the id of the element clicked
+                //Get the id of the marker
                 var markID = $(this).attr('markerID');
                 var marker = markerMap[markID];
-            
+
                 $(this).removeClass('divHighlight');
                 marker.setStyle({
                     fillColor: '#0033A0',

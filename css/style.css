@@ -27,24 +27,22 @@ h1 {
     flex: 1;
 }
 
-.Layout-nav,
-.Layout-right {
+.Layout-nav{
     /* 12em is the width of the columns */
-    flex: 0 0 20em;
+    flex: 0 0 15em;
+order: -1;
 }
 
 .Layout-right {
     overflow: auto;
     max-height: 91vh;
+    flex: 0 0 20em;
 }
 
-.Layout-nav {
-    /* put the nav on the left */
-    order: -1;
-}
 
 #map {
     height: 540px;
+    min-width: 900px;
     margin: 10px auto;
     border: solid;
 }
