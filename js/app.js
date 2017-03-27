@@ -20,10 +20,10 @@
     var searchControl = L.esri.Geocoding.geosearch().addTo(map);
 
     var slide = document.getElementById('slide'),
-        sliderDiv = document.getElementById("buffDist");
+        bufferVal = document.getElementById("buffDist");
 
     slide.oninput = function () {
-        sliderDiv.value = this.value;
+        bufferVal.innerHTML = "<b>" + this.value + "</b>";
     };
     slide.onchange = function () {
         spotlightSearch(currentLatLng);
@@ -110,7 +110,7 @@
     function spotlightSearch(chosenPoint) {
         currentLatLng = chosenPoint;
         //variable to hold buffer distance entered
-        var bufferKm = $(".buffInput").val() * 1.609344;
+        var bufferKm = $("#slide").val() * 1.609344;
         //prep the sidebar for some knowledge!
         $(".Layout-right").html("<div id='totals'></div><br>");
         SpotGroup.clearLayers();
@@ -220,7 +220,7 @@
             }).bindPopup(buildSpotPopup(spotTots)).addTo(SpotGroup).bringToBack();
             map.fitBounds(SpotGroup.getBounds(0));
         };
-        var totalstring = "There are <b>" + count + "</b> power plants that are <b>" + $(".buffInput").val() + " Miles</b> from the selected origin."
+        var totalstring = "There are <b>" + count + "</b> power plants that are <b>" + $("#slide").val() + " Miles</b> from the selected origin."
         $("#totals").html(totalstring);
     };
 

@@ -27,10 +27,10 @@ h1 {
     flex: 1;
 }
 
-.Layout-nav{
+.Layout-nav {
     /* 12em is the width of the columns */
     flex: 0 0 15em;
-order: -1;
+    order: -1;
 }
 
 .Layout-right {
@@ -39,22 +39,22 @@ order: -1;
     flex: 0 0 20em;
 }
 
-
 #map {
     height: 540px;
-    min-width: 900px;
+    min-width: 800px;
     margin: 10px auto;
     border: solid;
 }
 
-.buffInput {
-    width: 4em;
+#distLay {
+    padding-left: 10px;
 }
 
 #queryButton {
     border-radius: 5px;
     padding: 2px;
 }
+
 #totals {
     padding: 5px;
 }
