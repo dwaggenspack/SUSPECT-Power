@@ -53,6 +53,7 @@
         }
         //If it was a number or the first decimal point, say yes!
         return true;
+        
     }
 
     var commonStyles = {
@@ -173,15 +174,26 @@
             //
             //            });
 
+            
+            $(".borderpop").click(function () {
+                //Get the id of the marker
+                var markID = $(this).attr('markerID');
+                var marker = markerMap[markID];
+
+                map.closePopup();
+                map.flyTo(marker.getLatLng(), 9)
+                marker.openPopup().bringToFront();
+
+
+            });
+            
             $(".borderpop").mouseover(function () {
                 //Get the id of the marker
                 var markID = $(this).attr('markerID');
                 var marker = markerMap[markID];
 
-                map.flyTo(marker.getLatLng(), 9)
-
                 $(this).addClass('divHighlight');
-                marker.setStyle({
+                marker.bringToFront().setStyle({
                     fillColor: 'yellow',
                     radius: 15
                 });
@@ -194,7 +206,7 @@
                 var marker = markerMap[markID];
 
                 $(this).removeClass('divHighlight');
-                marker.setStyle({
+                marker.bringToFront().setStyle({
                     fillColor: '#0033A0',
                     radius: 7
                 });

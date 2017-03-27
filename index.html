@@ -21,7 +21,7 @@
             <div>
                 <label>Distance you wish to search in Miles:</label>
                 <!--Paste is not available on this input!!!-->
-                <input id='buffDist' class="buffInput" type="number" name="someid" value=100 onkeypress="return isNumberKey(event)" onpaste="return false" />
+                <input id='buffDist' class="buffInput" type="number" name="someid" value=100 onkeypress="return isNumberKey(event)" onpaste="return false" min="10" max="1000"/>
                 <label>0</label>
                 <input id="slide" type="range" min="10" max="1000" step="1" value="100">
                 <label>1000</label>
