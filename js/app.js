@@ -1,7 +1,9 @@
 (function () {
     var map = L.map('map', {
         center: [36, -94],
-        zoom: 4
+        zoom: 4,
+        maxBounds: [[7.536764322084078, -180.35156250000003],
+                    [76.05850791800295, -16.523437500000004]]
     });
 
     //hold the current latlng in case user just wants to change the buffer.
@@ -11,7 +13,7 @@
     var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
         subdomains: 'abcd',
-        maxZoom: 19
+        minZoom: 3
     });
 
     tiles.addTo(map);
@@ -53,7 +55,7 @@
         }
         //If it was a number or the first decimal point, say yes!
         return true;
-        
+
     }
 
     var commonStyles = {
@@ -73,7 +75,29 @@
 
     //hold the makers for quick jquery lookup
     var markerMap = {};
+   
+    //get all of our keys for fuel source
+    var distinct = [];
+    for (var i in plants.features) {
+        distinct.push(Object.keys(plants.features[i].properties.fuel_source));
+    }
 
+    //only want unique values
+    function mergeDedupe(arr) {
+        return [...new Set([].concat(...arr))];
+    }
+    
+    
+    distinct = mergeDedupe(distinct);
+    //console.log(Object.keys(plants.features[1].properties.fuel_source));
+    
+    var layercolor = {};
+    var colors = ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#b15928', '#969696'];
+    for (i = 0; i < distinct.length; i++) { 
+    layercolor[distinct[i]] = colors[i];
+}
+
+    
     //Loop through all of the layers and add the data for the plants.
     for (var layer in layerInfo) {
         geoJsonLayers[layer] = L.geoJson(plants, {
@@ -174,7 +198,7 @@
             //
             //            });
 
-            
+
             $(".borderpop").click(function () {
                 //Get the id of the marker
                 var markID = $(this).attr('markerID');
@@ -186,7 +210,7 @@
 
 
             });
-            
+
             $(".borderpop").mouseover(function () {
                 //Get the id of the marker
                 var markID = $(this).attr('markerID');
