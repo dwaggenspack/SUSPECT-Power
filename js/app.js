@@ -45,7 +45,7 @@
     function isNumberKey(evt) {
 
         var charCode = (evt.which) ? evt.which : event.keyCode
-        //Make sure the character entered is a number or decimal
+            //Make sure the character entered is a number or decimal
         if (charCode > 31 && (charCode != 46 && (charCode < 48 || charCode > 57))) {
             return false;
         }
@@ -65,15 +65,16 @@
     }
 
     //info for all the layers used.  Chose primary colors of light for best contrast between sources of power
-    var layerInfo = {powerLayer:{}
-        
+    var layerInfo = {
+        powerLayer: {}
+
     };
 
     var geoJsonLayers = {};
 
     //hold the makers for quick jquery lookup
     var markerMap = {};
-   
+
     //get all of our keys for fuel source
     var distinct = [];
     for (var i in plants.features) {
@@ -84,20 +85,22 @@
     function mergeDedupe(arr) {
         return [...new Set([].concat(...arr))];
     }
-    
-    
+
+
     distinct = mergeDedupe(distinct);
     //console.log(Object.keys(plants.features[1].properties.fuel_source));
-    
-    var layerColor = {};
-    var colors = ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#b15928', '#969696'];
-    for (i = 0; i < distinct.length; i++) { 
-    layerColor[distinct[i]] = colors[i];
-}
-    console.log(layerColor);
-var sourcesLabels = {"<b style='color:#dd0000'>Coal</b>":layerInfo};
 
-    
+    var layerColor = {};
+    var colors = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ffff99', '#b15928', '#969696'];
+    for (i = 0; i < distinct.length; i++) {
+        layerColor[distinct[i]] = colors[i];
+    }
+    console.log(layerColor);
+    var sourcesLabels = {
+        "<b style='color:#dd0000'>Coal</b>": layerInfo
+    };
+
+
     //Loop through all of the layers and add the data for the plants.
     for (var key in layerColor) {
         geoJsonLayers[key] = L.geoJson(plants, {
@@ -106,7 +109,7 @@ var sourcesLabels = {"<b style='color:#dd0000'>Coal</b>":layerInfo};
                 markerMap[feature.properties.code] = cMarker;
                 return cMarker;
             },
-            filter: function(feature) {
+            filter: function (feature) {
                 if (feature.properties.fuel_source[key]) {
                     return feature;
                 }
@@ -120,10 +123,10 @@ var sourcesLabels = {"<b style='color:#dd0000'>Coal</b>":layerInfo};
             }
         }).addTo(map);
     }
-//    //Add TOC to the Map
-//    L.control.layers(null, sourcesLabels, {
-//        collapsed: false
-//    }).addTo(map);
+    //    //Add TOC to the Map
+    //    L.control.layers(null, sourcesLabels, {
+    //        collapsed: false
+    //    }).addTo(map);
 
     //function used to calculate proportional radius based on fuel capacity
     function getRadius(val) {
