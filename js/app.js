@@ -65,10 +65,8 @@
     }
 
     //info for all the layers used.  Chose primary colors of light for best contrast between sources of power
-    var layerInfo = {
-        powerLayer: {
-
-        }
+    var layerInfo = {powerLayer:{}
+        
     };
 
     var geoJsonLayers = {};
@@ -91,30 +89,41 @@
     distinct = mergeDedupe(distinct);
     //console.log(Object.keys(plants.features[1].properties.fuel_source));
     
-    var layercolor = {};
+    var layerColor = {};
     var colors = ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#b15928', '#969696'];
     for (i = 0; i < distinct.length; i++) { 
-    layercolor[distinct[i]] = colors[i];
+    layerColor[distinct[i]] = colors[i];
 }
+    console.log(layerColor);
+var sourcesLabels = {"<b style='color:#dd0000'>Coal</b>":layerInfo};
 
     
     //Loop through all of the layers and add the data for the plants.
-    for (var layer in layerInfo) {
-        geoJsonLayers[layer] = L.geoJson(plants, {
+    for (var key in layerColor) {
+        geoJsonLayers[key] = L.geoJson(plants, {
             pointToLayer: function (feature, latlng) {
                 var cMarker = new L.circleMarker(latlng, commonStyles);
                 markerMap[feature.properties.code] = cMarker;
                 return cMarker;
             },
+            filter: function(feature) {
+                if (feature.properties.fuel_source[key]) {
+                    return feature;
+                }
+            },
             style: function (feature) {
                 return {
                     color: '#c8c8c7',
-                    fillColor: '#0033A0',
+                    fillColor: layerColor[key],
                     radius: 7
                 }
             }
         }).addTo(map);
     }
+//    //Add TOC to the Map
+//    L.control.layers(null, sourcesLabels, {
+//        collapsed: false
+//    }).addTo(map);
 
     //function used to calculate proportional radius based on fuel capacity
     function getRadius(val) {
@@ -143,7 +152,7 @@
 
         //count the number of features.
         var count = 0;
-        for (var layer in layerInfo) {
+        for (var layer in layerColor) {
             geoJsonLayers[layer].eachLayer(function (layer) {
                 var distance = chosenPoint.latlng.distanceTo(layer.getLatLng()) / 1000;
                 if (distance > bufferKm) {
