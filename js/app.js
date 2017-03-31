@@ -115,21 +115,6 @@
         layerInfo[key].color = layercolor[key];
     }
 
-    //    var layerInfo = {
-    //        Coal: {
-    //            trueFuel: "Coal",
-    //            color: '#dd0000'
-    //        },
-    //        Hydro: {
-    //            trueFuel: "Hydro",
-    //            color: '#0000dd'
-    //        },
-    //        Wind: {
-    //            trueFuel: "Wind",
-    //            color: '#00dd00'
-    //        }
-    //    };
-
 
     //Loop through all of the layers and add the data for the plants.
     for (var key in layerInfo) {
