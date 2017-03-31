@@ -231,25 +231,11 @@
                         }
                     };
                 });
-
-
-
-
-
             };
             var totalstring = "There are <b>" + count + "</b> power plants that are <b>" + $("#slide").val() + " Miles</b> from the selected origin."
             $("#totals").html(totalstring);
-
-            //labels for the TOC
-
-            //        var testing = "";
-            //
-            //        var sourcesLabels = {
-            //            "<b style='color:#dd0000'>Coal</b>": geoJsonLayers["Coal"],
-            //            "<b style='color:#0000dd'>Hydro</b>": geoJsonLayers["Hydro"],
-            //            "<b style='color:#00dd00'>Wind</b>": geoJsonLayers["Multiple"]
-            //        }
         }
+        
         $(".borderpop").click(function () {
             //Get the id of the marker
             var markID = $(this).attr('markerID');
@@ -322,7 +308,6 @@
         for (var key in plantTots) {
             popup += "<br><b>" + key + "</b>: " + plantTots[key].toLocaleString() + " MW"
         }
-        console.log(popup);
         return popup;
     }
 })();
