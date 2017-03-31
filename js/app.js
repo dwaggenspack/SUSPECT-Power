@@ -30,7 +30,8 @@
     slide.onchange = function () {
         spotlightSearch(currentLatLng);
     };
-    spotlightSearch
+
+    var TOC;
 
     var results = L.layerGroup().addTo(map);
 
@@ -64,12 +65,7 @@
         fillOpacity: .7
     }
 
-    //info for all the layers used.  Chose primary colors of light for best contrast between sources of power
-    var layerInfo = {
-        powerLayer: {
-
-        }
-    };
+    
 
     var geoJsonLayers = {};
 
@@ -110,15 +106,45 @@
     for (i = 0; i < distinct.length; i++) {
         layercolor[distinct[i]] = colors[i];
     }
+    
+    //info for all the layers used.  Chose primary colors of light for best contrast between sources of power
+    var layerInfo = {};
+    for(var key in layercolor){
+        console.log(key);
+        layerInfo[key] = {};
+        layerInfo[key].trueFuel = key;
+        layerInfo[key].color = layercolor[key];
+    }
+    console.log(layerInfo);
+    
+//    var layerInfo = {
+//        Coal: {
+//            trueFuel: "Coal",
+//            color: '#dd0000'
+//        },
+//        Hydro: {
+//            trueFuel: "Hydro",
+//            color: '#0000dd'
+//        },
+//        Wind: {
+//            trueFuel: "Wind",
+//            color: '#00dd00'
+//        }
+//    };
 
 
     //Loop through all of the layers and add the data for the plants.
-    for (var layer in layerInfo) {
-        geoJsonLayers[layer] = L.geoJson(plants, {
+    for (var key in layerInfo) {
+        geoJsonLayers[key] = L.geoJson(plants, {
             pointToLayer: function (feature, latlng) {
                 var cMarker = new L.circleMarker(latlng, commonStyles);
                 markerMap[feature.properties.code] = cMarker;
                 return cMarker;
+            },
+            filter: function (feature) {
+                if (feature.properties.trueFuel == key) {
+                    return feature;
+                }
             },
             style: function (feature) {
                 return {
@@ -129,6 +155,23 @@
             }
         }).addTo(map);
     }
+    var sourcesLabels = {};
+    for(var key in layercolor){
+        var testing = "<b style='color:" + layercolor[key] + "'>" + key + "</b>";       
+        sourcesLabels[testing] = geoJsonLayers[key];
+    }
+//        var testing = "<b style='color:#dd0000'>Coal</b>";
+//        
+//        var sourcesLabels = {
+//           
+//            "<b style='color:#0000dd'>Hydro</b>": geoJsonLayers["Hydro"],
+//            "<b style='color:#00dd00'>Wind</b>": geoJsonLayers["Wind"]
+//        }
+//        sourcesLabels[testing] = geoJsonLayers["Coal"];
+    //    //Add TOC to the Map
+    //    L.control.layers(null, sourcesLabels, {
+    //        collapsed: false
+    //    }).addTo(map);
 
     //function used to calculate proportional radius based on fuel capacity
     function getRadius(val) {
@@ -154,6 +197,11 @@
         SpotGroup.clearLayers();
         //create an object to hold the totals to use in the spotlight popup.
         var spotTots = {};
+        if (typeof TOC !== 'undefined') {
+            // the variable is defined
+            map.removeControl(TOC);
+        }
+
 
         //count the number of features.
         var count = 0;
@@ -187,6 +235,10 @@
                     }
                 };
             });
+
+
+
+
 
             //            $(".borderpop").click(function () {
             //
@@ -260,6 +312,20 @@
         };
         var totalstring = "There are <b>" + count + "</b> power plants that are <b>" + $("#slide").val() + " Miles</b> from the selected origin."
         $("#totals").html(totalstring);
+
+        //labels for the TOC
+
+//        var testing = "";
+//
+//        var sourcesLabels = {
+//            "<b style='color:#dd0000'>Coal</b>": geoJsonLayers["Coal"],
+//            "<b style='color:#0000dd'>Hydro</b>": geoJsonLayers["Hydro"],
+//            "<b style='color:#00dd00'>Wind</b>": geoJsonLayers["Multiple"]
+//        }
+        //Add TOC to the Map
+        TOC = L.control.layers(null, sourcesLabels, {
+            collapsed: false
+        }).addTo(map);
     };
 
     //function to build the popup for the plants
