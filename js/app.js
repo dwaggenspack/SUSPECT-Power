@@ -75,29 +75,43 @@
 
     //hold the makers for quick jquery lookup
     var markerMap = {};
-   
+
     //get all of our keys for fuel source
     var distinct = [];
     for (var i in plants.features) {
         distinct.push(Object.keys(plants.features[i].properties.fuel_source));
+        var trueFuel = "";
+        var fuelCount = 0
+        for (var key in plants.features[i].properties.fuel_source) {
+            if (fuelCount == 0) {
+                trueFuel = key;
+                fuelCount++;
+            } else {
+                trueFuel = "Multiple";
+                break;
+            }
+
+        }
+        plants.features[i].properties.trueFuel = trueFuel;
     }
 
     //only want unique values
     function mergeDedupe(arr) {
         return [...new Set([].concat(...arr))];
     }
-    
-    
-    distinct = mergeDedupe(distinct);
-    //console.log(Object.keys(plants.features[1].properties.fuel_source));
-    
-    var layercolor = {};
-    var colors = ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#b15928', '#969696'];
-    for (i = 0; i < distinct.length; i++) { 
-    layercolor[distinct[i]] = colors[i];
-}
 
-    
+
+    distinct = mergeDedupe(distinct);
+    distinct.push("Multiple");
+    console.log(distinct);
+
+    var layercolor = {};
+    var colors = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ffff99', '#b15928', '#969696', '#123456'];
+    for (i = 0; i < distinct.length; i++) {
+        layercolor[distinct[i]] = colors[i];
+    }
+
+
     //Loop through all of the layers and add the data for the plants.
     for (var layer in layerInfo) {
         geoJsonLayers[layer] = L.geoJson(plants, {
@@ -109,7 +123,7 @@
             style: function (feature) {
                 return {
                     color: '#c8c8c7',
-                    fillColor: '#0033A0',
+                    fillColor: layercolor[feature.properties.trueFuel],
                     radius: 7
                 }
             }
@@ -231,7 +245,7 @@
 
                 $(this).removeClass('divHighlight');
                 marker.bringToFront().setStyle({
-                    fillColor: '#0033A0',
+                    fillColor: layercolor[marker.feature.properties.trueFuel],
                     radius: 7
                 });
 
