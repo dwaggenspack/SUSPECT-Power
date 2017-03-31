@@ -65,7 +65,7 @@
         fillOpacity: .7
     }
 
-    
+
 
     var geoJsonLayers = {};
 
@@ -99,36 +99,36 @@
 
     distinct = mergeDedupe(distinct);
     distinct.push("Multiple");
-    
+
 
     var layercolor = {};
     var colors = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ffff99', '#b15928', '#969696', '#123456'];
     for (i = 0; i < distinct.length; i++) {
         layercolor[distinct[i]] = colors[i];
     }
-    
+
     //info for all the layers used.  Chose primary colors of light for best contrast between sources of power
     var layerInfo = {};
-    for(var key in layercolor){
+    for (var key in layercolor) {
         layerInfo[key] = {};
         layerInfo[key].trueFuel = key;
         layerInfo[key].color = layercolor[key];
     }
-    
-//    var layerInfo = {
-//        Coal: {
-//            trueFuel: "Coal",
-//            color: '#dd0000'
-//        },
-//        Hydro: {
-//            trueFuel: "Hydro",
-//            color: '#0000dd'
-//        },
-//        Wind: {
-//            trueFuel: "Wind",
-//            color: '#00dd00'
-//        }
-//    };
+
+    //    var layerInfo = {
+    //        Coal: {
+    //            trueFuel: "Coal",
+    //            color: '#dd0000'
+    //        },
+    //        Hydro: {
+    //            trueFuel: "Hydro",
+    //            color: '#0000dd'
+    //        },
+    //        Wind: {
+    //            trueFuel: "Wind",
+    //            color: '#00dd00'
+    //        }
+    //    };
 
 
     //Loop through all of the layers and add the data for the plants.
@@ -154,8 +154,8 @@
         }).addTo(map);
     }
     var sourcesLabels = {};
-    for(var key in layercolor){
-        var testing = "<b style='color:" + layercolor[key] + "'>" + key + "</b>";       
+    for (var key in layercolor) {
+        var testing = "<b style='color:" + layercolor[key] + "'>" + key + "</b>";
         sourcesLabels[testing] = geoJsonLayers[key];
     }
 
@@ -172,12 +172,15 @@
     map.on('click', function (e) {
         spotlightSearch(e);
     });
-    map.on('overlayremove', function(e) {
-  spotlightSearch(currentLatLng);
-});
-    map.on('overlayadd', function(e) {
-  spotlightSearch(currentLatLng);
-});
+    map.on('overlayremove', function (e) {
+        spotlightSearch(currentLatLng);
+    });
+    map.on('overlayadd', function (e) {
+        spotlightSearch(currentLatLng);
+    });
+    TOC = L.control.layers(null, sourcesLabels, {
+        collapsed: false
+    }).addTo(map);
 
     //function to handle spotlight and search for power plants
     function spotlightSearch(chosenPoint) {
@@ -189,139 +192,108 @@
         SpotGroup.clearLayers();
         //create an object to hold the totals to use in the spotlight popup.
         var spotTots = {};
-        if (typeof TOC !== 'undefined') {
-            // the variable is defined
-            map.removeControl(TOC);
-        }
+
 
 
         //count the number of features.
         var count = 0;
         for (var layer in layerInfo) {
-            if(map.hasLayer(geoJsonLayers[layer])){
-               
-            geoJsonLayers[layer].eachLayer(function (layer) {
-                var distance = chosenPoint.latlng.distanceTo(layer.getLatLng()) / 1000;
-                if (distance > bufferKm) {
-                    layer.setStyle({
-                        stroke: false,
-                        fill: false
-                    });
-                } else {
-                    count++;
-                    layer.setStyle({
-                        stroke: true,
-                        fill: true
-                    });
+            if (map.hasLayer(geoJsonLayers[layer])) {
 
-                    var fullPopup = buildPopup(layer.feature.properties, distance);
-                    layer.bindPopup("<div>" + fullPopup + "</div><br>");
+                geoJsonLayers[layer].eachLayer(function (layer) {
+                    var distance = chosenPoint.latlng.distanceTo(layer.getLatLng()) / 1000;
+                    if (distance > bufferKm) {
+                        layer.setStyle({
+                            stroke: false,
+                            fill: false
+                        });
+                    } else {
+                        count++;
+                        layer.setStyle({
+                            stroke: true,
+                            fill: true
+                        });
 
-                    $('.Layout-right').append("<div id='" + layer.feature.properties.plant_name +
-                        "' class='borderpop' markerID='" + layer.feature.properties.code + "'>" + fullPopup + "</div>");
+                        var fullPopup = buildPopup(layer.feature.properties, distance);
+                        layer.bindPopup("<div>" + fullPopup + "</div><br>");
 
-                    for (var key in layer.feature.properties.fuel_source) {
-                        //makes it so that the SpotTots[key] does not read as NaN
-                        //Otherwise it will not do the totals.
-                        spotTots[key] = spotTots[key] ? spotTots[key] : 0;
-                        //total the fuel source
-                        spotTots[key] += layer.feature.properties.fuel_source[key];
-                    }
-                };
-            });
+                        $('.Layout-right').append("<div id='" + layer.feature.properties.plant_name +
+                            "' class='borderpop' markerID='" + layer.feature.properties.code + "'>" + fullPopup + "</div>");
 
+                        for (var key in layer.feature.properties.fuel_source) {
 
+                            //makes it so that the SpotTots[key] does not read as NaN
+                            //Otherwise it will not do the totals.
+                            spotTots[key] = spotTots[key] ? spotTots[key] : 0;
+                            //total the fuel source
+                            spotTots[key] += layer.feature.properties.fuel_source[key];
 
-
-
-            //            $(".borderpop").click(function () {
-            //
-            //                var targetName = $(this).attr('id');
-            //
-            //                for (var layer in layerInfo) {
-            //                    geoJsonLayers[layer].eachLayer(function (layer) {
-            //                        if (layer.feature.properties.plant_name == targetName) {
-            //                            map.flyTo(layer.getLatLng(), 9)
-            //                            layer.setStyle({
-            //                                fillColor: 'yellow',
-            //                                radius: 15
-            //                            });
-            //                        } else {
-            //                            layer.setStyle({
-            //                                fillColor: '#0033A0',
-            //                                radius: 7
-            //                            });
-            //                        }
-            //                    });
-            //                }
-            //
-            //
-            //            });
-
-
-            $(".borderpop").click(function () {
-                //Get the id of the marker
-                var markID = $(this).attr('markerID');
-                var marker = markerMap[markID];
-
-                map.closePopup();
-                map.flyTo(marker.getLatLng(), 9)
-                marker.openPopup().bringToFront();
-
-
-            });
-
-            $(".borderpop").mouseover(function () {
-                //Get the id of the marker
-                var markID = $(this).attr('markerID');
-                var marker = markerMap[markID];
-
-                $(this).addClass('divHighlight');
-                marker.bringToFront().setStyle({
-                    fillColor: 'yellow',
-                    radius: 15
+                        }
+                    };
                 });
 
+
+
+
+
+            };
+            var totalstring = "There are <b>" + count + "</b> power plants that are <b>" + $("#slide").val() + " Miles</b> from the selected origin."
+            $("#totals").html(totalstring);
+
+            //labels for the TOC
+
+            //        var testing = "";
+            //
+            //        var sourcesLabels = {
+            //            "<b style='color:#dd0000'>Coal</b>": geoJsonLayers["Coal"],
+            //            "<b style='color:#0000dd'>Hydro</b>": geoJsonLayers["Hydro"],
+            //            "<b style='color:#00dd00'>Wind</b>": geoJsonLayers["Multiple"]
+            //        }
+        }
+        $(".borderpop").click(function () {
+            //Get the id of the marker
+            var markID = $(this).attr('markerID');
+            var marker = markerMap[markID];
+
+            map.closePopup();
+            map.flyTo(marker.getLatLng(), 9)
+            marker.openPopup().bringToFront();
+
+
+        });
+
+        $(".borderpop").mouseover(function () {
+            //Get the id of the marker
+            var markID = $(this).attr('markerID');
+            var marker = markerMap[markID];
+
+            $(this).addClass('divHighlight');
+            marker.bringToFront().setStyle({
+                fillColor: 'yellow',
+                radius: 15
             });
 
-            $(".borderpop").mouseout(function () {
-                //Get the id of the marker
-                var markID = $(this).attr('markerID');
-                var marker = markerMap[markID];
+        });
 
-                $(this).removeClass('divHighlight');
-                marker.bringToFront().setStyle({
-                    fillColor: layercolor[marker.feature.properties.trueFuel],
-                    radius: 7
-                });
+        $(".borderpop").mouseout(function () {
+            //Get the id of the marker
+            var markID = $(this).attr('markerID');
+            var marker = markerMap[markID];
 
+            $(this).removeClass('divHighlight');
+            marker.bringToFront().setStyle({
+                fillColor: layercolor[marker.feature.properties.trueFuel],
+                radius: 7
             });
 
-            var spotlight = L.circle(chosenPoint.latlng, {
-                radius: (bufferKm * 1000),
-                color: '#303030',
-                stroke: false
-            }).bindPopup(buildSpotPopup(spotTots)).addTo(SpotGroup).bringToBack();
-            map.fitBounds(SpotGroup.getBounds(0));
-        };
-        var totalstring = "There are <b>" + count + "</b> power plants that are <b>" + $("#slide").val() + " Miles</b> from the selected origin."
-        $("#totals").html(totalstring);
+        });
+        var spotlight = L.circle(chosenPoint.latlng, {
+            radius: (bufferKm * 1000),
+            color: '#303030',
+            stroke: false
+        }).bindPopup(buildSpotPopup(spotTots)).addTo(SpotGroup).bringToBack();
+        map.fitBounds(SpotGroup.getBounds(0));
 
-        //labels for the TOC
-
-//        var testing = "";
-//
-//        var sourcesLabels = {
-//            "<b style='color:#dd0000'>Coal</b>": geoJsonLayers["Coal"],
-//            "<b style='color:#0000dd'>Hydro</b>": geoJsonLayers["Hydro"],
-//            "<b style='color:#00dd00'>Wind</b>": geoJsonLayers["Multiple"]
-//        }
-    }
-        //Add TOC to the Map
-        TOC = L.control.layers(null, sourcesLabels, {
-            collapsed: false
-        }).addTo(map);
-        console.log(map.hasLayer(geoJsonLayers["Hydro"]));
     };
 
     //function to build the popup for the plants
@@ -350,6 +322,7 @@
         for (var key in plantTots) {
             popup += "<br><b>" + key + "</b>: " + plantTots[key].toLocaleString() + " MW"
         }
+        console.log(popup);
         return popup;
     }
 })();
