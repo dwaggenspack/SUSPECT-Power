@@ -41,7 +41,7 @@ h1 {
 
 #map {
     height: 540px;
-    min-width: 800px;
+    min-width: 650px;
     margin: 10px auto;
     border: solid;
 }
