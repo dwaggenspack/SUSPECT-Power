@@ -99,7 +99,7 @@
 
     distinct = mergeDedupe(distinct);
     distinct.push("Multiple");
-    console.log(distinct);
+    
 
     var layercolor = {};
     var colors = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ffff99', '#b15928', '#969696', '#123456'];
@@ -110,12 +110,10 @@
     //info for all the layers used.  Chose primary colors of light for best contrast between sources of power
     var layerInfo = {};
     for(var key in layercolor){
-        console.log(key);
         layerInfo[key] = {};
         layerInfo[key].trueFuel = key;
         layerInfo[key].color = layercolor[key];
     }
-    console.log(layerInfo);
     
 //    var layerInfo = {
 //        Coal: {
@@ -160,18 +158,6 @@
         var testing = "<b style='color:" + layercolor[key] + "'>" + key + "</b>";       
         sourcesLabels[testing] = geoJsonLayers[key];
     }
-//        var testing = "<b style='color:#dd0000'>Coal</b>";
-//        
-//        var sourcesLabels = {
-//           
-//            "<b style='color:#0000dd'>Hydro</b>": geoJsonLayers["Hydro"],
-//            "<b style='color:#00dd00'>Wind</b>": geoJsonLayers["Wind"]
-//        }
-//        sourcesLabels[testing] = geoJsonLayers["Coal"];
-    //    //Add TOC to the Map
-    //    L.control.layers(null, sourcesLabels, {
-    //        collapsed: false
-    //    }).addTo(map);
 
     //function used to calculate proportional radius based on fuel capacity
     function getRadius(val) {
@@ -186,6 +172,12 @@
     map.on('click', function (e) {
         spotlightSearch(e);
     });
+    map.on('overlayremove', function(e) {
+  spotlightSearch(currentLatLng);
+});
+    map.on('overlayadd', function(e) {
+  spotlightSearch(currentLatLng);
+});
 
     //function to handle spotlight and search for power plants
     function spotlightSearch(chosenPoint) {
@@ -206,6 +198,8 @@
         //count the number of features.
         var count = 0;
         for (var layer in layerInfo) {
+            if(map.hasLayer(geoJsonLayers[layer])){
+               
             geoJsonLayers[layer].eachLayer(function (layer) {
                 var distance = chosenPoint.latlng.distanceTo(layer.getLatLng()) / 1000;
                 if (distance > bufferKm) {
@@ -322,10 +316,12 @@
 //            "<b style='color:#0000dd'>Hydro</b>": geoJsonLayers["Hydro"],
 //            "<b style='color:#00dd00'>Wind</b>": geoJsonLayers["Multiple"]
 //        }
+    }
         //Add TOC to the Map
         TOC = L.control.layers(null, sourcesLabels, {
             collapsed: false
         }).addTo(map);
+        console.log(map.hasLayer(geoJsonLayers["Hydro"]));
     };
 
     //function to build the popup for the plants
