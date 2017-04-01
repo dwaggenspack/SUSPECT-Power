@@ -70,3 +70,7 @@ h1 {
     background-color: darkgray;
     color: white;
 }
+
+.leaflet-popup-content-wrapper {
+    background-color: #f3f3f3;
+}

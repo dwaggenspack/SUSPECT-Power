@@ -102,7 +102,7 @@
 
 
     var layercolor = {};
-    var colors = ['#1f78b4', '#9699d3', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#4ac2c6', '#6a3d9a', '#dddd99', '#b15928', '#969696', '#123456'];
+    var colors = ['#1f78b4', '#9699d3', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#4ac2c6', '#6a3d9a','#b15928', '#dddd99',  '#969696', '#123456'];
     for (i = 0; i < distinct.length; i++) {
         layercolor[distinct[i]] = colors[i];
     }
@@ -274,11 +274,11 @@
         //go through the keys for fuels source and build the string to show the power capacity for multiple fuel types.
         for (var key in plantProp.fuel_source) {
 
-            fuelSourceStr += "<br><b>" + key + "</b>: " + plantProp.fuel_source[key] + " MW"
+            fuelSourceStr += "<br><b style='color:" + layercolor[key] + "'>" + key + "</b>: " + plantProp.fuel_source[key] + " MW"
         }
 
         // declare and define popup here
-        var popup = "<b>" + plantProp.plant_name + "</b>" +
+        var popup = "<b style='color:" + layercolor[key] + "'>" + plantProp.plant_name + "</b>" +
             fuelSourceStr;
 
         popup += "<br>Plant is <b>" + (distance * 0.62137119).toLocaleString() + " miles</b> from the original point.";
@@ -291,7 +291,7 @@
         var popup = "<b>Summary Statistics</b>";
         //go through the keys for fuels source and build the string to show the power capacity for multiple fuel types.
         for (var key in plantTots) {
-            popup += "<br><b>" + key + "</b>: " + plantTots[key].toLocaleString() + " MW"
+            popup += "<br><b style='color:" + layercolor[key] + "'>" + key + "</b>: " + plantTots[key].toLocaleString() + " MW"
         }
         return popup;
     }
