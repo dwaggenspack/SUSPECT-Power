@@ -64,8 +64,18 @@
         stroke: 1,
         fillOpacity: .7
     }
+    var riverLayer = {};
+    var riverLayer = new L.geoJSON(la_rivers, {
+        filter: function(feature) {
+            if (feature.geometry === null) {} else {
+                if (feature.properties.NAMEEN === null | feature.properties.NAMEEN == "Unnamed") {
 
-
+                } else {
+                    return true;
+                }
+            }
+        }
+    }).addTo(map);
 
     var geoJsonLayers = {};
 
@@ -102,7 +112,7 @@
 
 
     var layercolor = {};
-    var colors = ['#1f78b4', '#9699d3', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#4ac2c6', '#6a3d9a','#b15928', '#dddd99',  '#969696', '#123456'];
+    var colors = ['#1f78b4', '#9699d3', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#4ac2c6', '#6a3d9a', '#b15928', '#dddd99', '#969696', '#123456'];
     for (i = 0; i < distinct.length; i++) {
         layercolor[distinct[i]] = colors[i];
     }
@@ -220,7 +230,7 @@
             var totalstring = "There are <b>" + count + "</b> power plants that are <b>" + $("#slide").val() + " Miles</b> from the selected origin."
             $("#totals").html(totalstring);
         }
-        
+
         $(".borderpop").click(function () {
             //Get the id of the marker
             var markID = $(this).attr('markerID');
@@ -269,6 +279,7 @@
 
     //function to build the popup for the plants
     function buildPopup(plantProp, distance) {
+        console.log(plantProp);
         //create a string for multiple fuel types
         var fuelSourceStr = "";
         //go through the keys for fuels source and build the string to show the power capacity for multiple fuel types.
