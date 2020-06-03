@@ -36,13 +36,6 @@
     <div class="body-wrapper">
         <div>
             <div id="map"></div>
-            <div>
-                <label>10</label>
-                <input id="slide" type="range" min="10" max="500" step="1" value="100">
-                <label>500</label>
-                <label id="dist-label">Distance you wish to search in Miles:</label>
-                <label id='buffDist'><b>100</b></label>
-            </div>
         </div>
         <div>
             <h2>Plants within search area</h2>
@@ -54,6 +47,16 @@
         <p>Data Source: <a target='_blank' href="http://www.eia.gov/electricity/data/eia923/">Energy Information
                 Agency</a> formatted by Richard Donohue.</p>
     </footer>
+
+    <!-- added dynamically to map -->
+    <div id="range-slider">
+        <p>Search buffer distance in miles:
+            <span id='buffDist'><b>100</b></span></p>
+        <label>10</label>
+        <input id="slide" type="range" min="10" max="500" step="1" value="100">
+        <label>500</label>
+    </div>
+
 </body>
 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="

@@ -23,6 +23,29 @@
     //add address search to the map
     var searchControl = L.esri.Geocoding.geosearch().addTo(map);
 
+    // create Leaflet control for the slider
+    const sliderControl = L.control({
+        position: 'bottomleft'
+    });
+
+    // when control is added
+    sliderControl.onAdd = function (map) {
+
+        // select the current slider with id of 'slider'
+        const controls = L.DomUtil.get("range-slider");
+
+        // disable scroll and click events on map beneath slider
+        L.DomEvent.disableScrollPropagation(controls);
+        L.DomEvent.disableClickPropagation(controls);
+
+        // return selection to control
+        return controls;
+
+    }
+
+    // add the control to the map
+    sliderControl.addTo(map);
+
     var slide = document.getElementById('slide'),
         bufferVal = document.getElementById("buffDist");
 
