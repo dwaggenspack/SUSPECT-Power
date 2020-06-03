@@ -1,8 +1,12 @@
-Do you SUSPECT there may be a power plant near you? 
+# SUSPECT Power map
+
+Do you SUSPECT there may be a power plant near you?
+
 Does it THRILL you? Does it instill a crippling TERROR within you?
 Either way, this map has you covered!
 
 There are 2 ways of performing this magical query to solve your quandry!
+
 1. Set your buffer distance in the box below the map.
 2. Either click on the map or click the magnifying glass and type in an address.
 3. Behold the magic!
