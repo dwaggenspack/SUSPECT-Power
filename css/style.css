@@ -12,28 +12,28 @@ h1 {
     font-family: 'Source Serif Pro', serif;
 }
 
-.Layout {
+.layout {
     display: flex;
     min-height: 85vh;
     flex-direction: column;
 }
 
-.Layout-body {
+.layout-body {
     display: flex;
     flex: 1;
 }
 
-.Layout-center {
+.layout-center {
     flex: 1;
 }
 
-.Layout-nav {
+.layout-nav {
     /* 12em is the width of the columns */
     flex: 0 0 15em;
     order: -1;
 }
 
-.Layout-right {
+.layout-right {
     overflow: auto;
     max-height: 91vh;
     flex: 0 0 20em;
