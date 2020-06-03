@@ -89,65 +89,6 @@
         stroke: 1,
         fillOpacity: .7
     }
-    var riverLayer = {};
-    var riverLayer = new L.geoJSON(la_rivers, {
-        filter: function (feature) {
-            if (feature.geometry === null) {} else {
-                if (feature.properties.NAMEEN === null | feature.properties.NAMEEN == "Unnamed") {
-
-                } else {
-                    return true;
-                }
-            }
-        }
-    }).addTo(map);
-
-    for (var plant in plants.features) {
-
-        var closestRiver = "";
-        var riverDistance = 999999999999999999999999999999;
-        riverLayer.eachLayer(function (layer) {
-            var tempDist;
-            if (layer.feature.geometry.type == "LineString") {
-                tempDist = checkRiverDistance(plants.features[plant].geometry, layer.feature.geometry);
-            } else {
-                var multidist;
-                for (var line in layer.feature.geometry.coordinates) {
-                    //console.log(layer.feature.geometry.coordinates[line]);
-                    var test = turf.lineString(layer.feature.geometry.coordinates[line]);
-                    //console.log(test.geometry);
-
-                    multiDist = checkRiverDistance(plants.features[plant].geometry, test.geometry);
-                    if (multiDist < tempDist) {
-                        tempdist = multidist
-                    }
-                    //console.log(multiDist);
-                }
-                //console.log(layer.feature.geometry);
-            }
-            //console.log(layer.feature.geometry.type);
-
-
-            //var tempDist = checkRiverDistance(plants.features[plant].geometry, layer.feature.geometry)
-
-            if (tempDist < riverDistance) {
-                riverDistance = tempDist;
-                closestRiver = layer.feature.properties.NAMEEN;
-            }
-
-        });
-
-        //We need to populate our power plant with our latest information!
-        plants.features[plant].properties["nearestRiver"] = closestRiver;
-        plants.features[plant].properties["riverDistance"] = riverDistance.toFixed(3);
-    };
-
-    //Function to get the distance to the nearest river
-    function checkRiverDistance(coordinate, river) {
-        return turf.pointToLineDistance(coordinate, river, {
-            units: 'miles'
-        });
-    }
 
     var geoJsonLayers = {};
 
