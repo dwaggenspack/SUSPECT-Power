@@ -17,12 +17,23 @@
 </head>
 
 <body>
-    <header>
-        <h1>Super United States Power Emission Carbon Transmission</h1>
-        <p>Do you SUSPECT there may be a power plant near you? Does it THRILL you?</p>
-        <p>Does it instill a crippling TERROR within you? Either way, this map has you covered!</p>
+    <header class='header-wrapper'>
+        <div>
+            <h1>United States Power Generation &amp; Carbon Transmission</h1>
+        </div>
+        <div>
+            <p>Do you SUSPECT there may be a power plant near you? Does it THRILL you?</p>
+            <p>Does it instill a crippling TERROR within you? Either way, this map has you covered!</p>
+            <p>There are 3 ways of performing this magical query to solve
+                your quandry:</p>
+            <ol>
+                <li>Set your buffer distance using the slider below the map.</li>
+                <li>Click on the map.</li>
+                <li>Search for an address.</li>
+            </ol>
+        </div>
     </header>
-    <div class="wrapper">
+    <div class="body-wrapper">
         <div>
             <div id="map"></div>
             <div>
@@ -32,10 +43,10 @@
                 <label id="dist-label">Distance you wish to search in Miles:</label>
                 <label id='buffDist'><b>100</b></label>
             </div>
-
         </div>
         <div>
             <h2>Plants within search area</h2>
+            <div id="plant-search-results"></div>
         </div>
     </div>
     <footer>
@@ -43,19 +54,6 @@
         <p>Data Source: <a target='_blank' href="http://www.eia.gov/electricity/data/eia923/">Energy Information
                 Agency</a> formatted by Richard Donohue.</p>
     </footer>
-
-    <div id="modal">
-        <p>There are 2 ways of performing this magical query to solve
-            your quandry!</p>
-        <ul>
-            <li>Set your buffer distance using the slider below the map.</li>
-            <li>Either click on the map or click the magnifying glass and type in an address.</li>
-            <li>The Table of Contents will allow you to filter by specific fuel sources.</li>
-            <li>Behold the magic!</li>
-        </ul>
-        <p>All of the power plants in within your search area will be placed on the map as well as into the panel to
-            the right!</p>
-    </div>
 </body>
 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="

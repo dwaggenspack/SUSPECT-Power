@@ -261,7 +261,7 @@
                         var fullPopup = buildPopup(layer.feature.properties, distance);
                         layer.bindPopup("<div>" + fullPopup + "</div><br>");
 
-                        $('.layout-right').append("<div id='" + layer.feature.properties.plant_name +
+                        $('#plant-search-results').append("<div id='" + layer.feature.properties.plant_name +
                             "' class='borderpop' markerID='" + layer.feature.properties.code + "'>" + fullPopup + "</div>");
 
                         for (var key in layer.feature.properties.fuel_source) {
