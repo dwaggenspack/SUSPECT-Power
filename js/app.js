@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var map = L.map('map', {
         center: [36, -94],
         zoom: 4,
@@ -26,10 +26,10 @@
     var slide = document.getElementById('slide'),
         bufferVal = document.getElementById("buffDist");
 
-    slide.oninput = function() {
+    slide.oninput = function () {
         bufferVal.innerHTML = "<b>" + this.value + "</b>";
     };
-    slide.onchange = function() {
+    slide.onchange = function () {
         spotlightSearch(currentLatLng);
     };
 
@@ -38,7 +38,7 @@
     var results = L.layerGroup().addTo(map);
 
     //function to handle the results of an address search
-    searchControl.on('results', function(data) {
+    searchControl.on('results', function (data) {
         results.clearLayers();
         spotlightSearch(data.results[0]);
 
@@ -48,7 +48,7 @@
     function isNumberKey(evt) {
 
         var charCode = (evt.which) ? evt.which : event.keyCode
-            //Make sure the character entered is a number or decimal
+        //Make sure the character entered is a number or decimal
         if (charCode > 31 && (charCode != 46 && (charCode < 48 || charCode > 57))) {
             return false;
         }
@@ -68,7 +68,7 @@
     }
     var riverLayer = {};
     var riverLayer = new L.geoJSON(la_rivers, {
-        filter: function(feature) {
+        filter: function (feature) {
             if (feature.geometry === null) {} else {
                 if (feature.properties.NAMEEN === null | feature.properties.NAMEEN == "Unnamed") {
 
@@ -83,7 +83,7 @@
 
         var closestRiver = "";
         var riverDistance = 999999999999999999999999999999;
-        riverLayer.eachLayer(function(layer) {
+        riverLayer.eachLayer(function (layer) {
             var tempDist;
             if (layer.feature.geometry.type == "LineString") {
                 tempDist = checkRiverDistance(plants.features[plant].geometry, layer.feature.geometry);
@@ -178,17 +178,17 @@
     //Loop through all of the layers and add the data for the plants.
     for (var key in layerInfo) {
         geoJsonLayers[key] = L.geoJson(plants, {
-            pointToLayer: function(feature, latlng) {
+            pointToLayer: function (feature, latlng) {
                 var cMarker = new L.circleMarker(latlng, commonStyles);
                 markerMap[feature.properties.code] = cMarker;
                 return cMarker;
             },
-            filter: function(feature) {
+            filter: function (feature) {
                 if (feature.properties.trueFuel == key) {
                     return feature;
                 }
             },
-            style: function(feature) {
+            style: function (feature) {
                 return {
                     color: '#c8c8c7',
                     fillColor: layercolor[feature.properties.trueFuel],
@@ -213,13 +213,13 @@
     var SpotGroup = L.featureGroup().addTo(map);
 
     //click function for the map. Performs a 500km buffer query and shows only plants that fall within that buffer.
-    map.on('click', function(e) {
+    map.on('click', function (e) {
         spotlightSearch(e);
     });
-    map.on('overlayremove', function(e) {
+    map.on('overlayremove', function (e) {
         spotlightSearch(currentLatLng);
     });
-    map.on('overlayadd', function(e) {
+    map.on('overlayadd', function (e) {
         spotlightSearch(currentLatLng);
     });
     TOC = L.control.layers(null, sourcesLabels, {
@@ -232,7 +232,7 @@
         //variable to hold buffer distance entered
         var bufferKm = $("#slide").val() * 1.609344;
         //prep the sidebar for some knowledge!
-        $(".Layout-right").html("<div id='totals'></div><br>");
+        $(".layout-right").html("<div id='totals'></div><br>");
         SpotGroup.clearLayers();
         //create an object to hold the totals to use in the spotlight popup.
         var spotTots = {};
@@ -244,7 +244,7 @@
         for (var layer in layerInfo) {
             if (map.hasLayer(geoJsonLayers[layer])) {
 
-                geoJsonLayers[layer].eachLayer(function(layer) {
+                geoJsonLayers[layer].eachLayer(function (layer) {
                     var distance = chosenPoint.latlng.distanceTo(layer.getLatLng()) / 1000;
                     if (distance > bufferKm) {
                         layer.setStyle({
@@ -261,7 +261,7 @@
                         var fullPopup = buildPopup(layer.feature.properties, distance);
                         layer.bindPopup("<div>" + fullPopup + "</div><br>");
 
-                        $('.Layout-right').append("<div id='" + layer.feature.properties.plant_name +
+                        $('.layout-right').append("<div id='" + layer.feature.properties.plant_name +
                             "' class='borderpop' markerID='" + layer.feature.properties.code + "'>" + fullPopup + "</div>");
 
                         for (var key in layer.feature.properties.fuel_source) {
@@ -280,7 +280,7 @@
             $("#totals").html(totalstring);
         }
 
-        $(".borderpop").click(function() {
+        $(".borderpop").click(function () {
             //Get the id of the marker
             var markID = $(this).attr('markerID');
             var marker = markerMap[markID];
@@ -292,7 +292,7 @@
 
         });
 
-        $(".borderpop").mouseover(function() {
+        $(".borderpop").mouseover(function () {
             //Get the id of the marker
             var markID = $(this).attr('markerID');
             var marker = markerMap[markID];
@@ -305,7 +305,7 @@
 
         });
 
-        $(".borderpop").mouseout(function() {
+        $(".borderpop").mouseout(function () {
             //Get the id of the marker
             var markID = $(this).attr('markerID');
             var marker = markerMap[markID];

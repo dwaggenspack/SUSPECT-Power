@@ -16,44 +16,46 @@
     <link rel="stylesheet" href="css/style.css" />
 </head>
 
-<body class="layout">
+<body>
     <header>
         <h1>Super United States Power Emission Carbon Transmission</h1>
+        <p>Do you SUSPECT there may be a power plant near you? Does it THRILL you?</p>
+        <p>Does it instill a crippling TERROR within you? Either way, this map has you covered!</p>
     </header>
-    <div class="layout-body">
-        <div class="Layout-center">
+    <div class="wrapper">
+        <div>
             <div id="map"></div>
             <div>
                 <label>10</label>
                 <input id="slide" type="range" min="10" max="500" step="1" value="100">
                 <label>500</label>
-                <label id="distLay">Distance you wish to search in Miles:</label>
+                <label id="dist-label">Distance you wish to search in Miles:</label>
                 <label id='buffDist'><b>100</b></label>
             </div>
 
         </div>
-        <div class="layout-nav">
-            <p>Do you SUSPECT there may be a power plant near you?<br>Does it THRILL you?<br>Does it instill a crippling
-                TERROR within you?<br>Either way, this map has you covered!<br><br> There are 2 ways of performing this
-                magical query to solve your quandry!<br></p>
-            <ul>
-                <li>Set your buffer distance using the slider below the map.</li>
-                <li>Either click on the map or click the magnifying glass and type in an address.</li>
-                <li>The Table of Contents will allow you to filter by specific fuel sources.</li>
-                <li>Behold the magic!</li>
-            </ul>
-            <p>All of the power plants in within your search area will be placed on the map as well as into the panel to
-                the right!</p>
-            <br><br>
-            <p>Map Created by Derek Waggenspack 2017.</p>
-            <p>Data Source: <a target='_blank' href="http://www.eia.gov/electricity/data/eia923/">Energy Information
-                    Agency</a> formatted by Richard Donohue.</p>
-        </div>
-        <div class="layout-right">
-            <p>This side will reveal your wildest dreams - insofar as this map can do so!</p>
+        <div>
+            <h2>Plants within search area</h2>
         </div>
     </div>
-    <footer></footer>
+    <footer>
+        <p>Map Created by Derek Waggenspack 2017.</p>
+        <p>Data Source: <a target='_blank' href="http://www.eia.gov/electricity/data/eia923/">Energy Information
+                Agency</a> formatted by Richard Donohue.</p>
+    </footer>
+
+    <div id="modal">
+        <p>There are 2 ways of performing this magical query to solve
+            your quandry!</p>
+        <ul>
+            <li>Set your buffer distance using the slider below the map.</li>
+            <li>Either click on the map or click the magnifying glass and type in an address.</li>
+            <li>The Table of Contents will allow you to filter by specific fuel sources.</li>
+            <li>Behold the magic!</li>
+        </ul>
+        <p>All of the power plants in within your search area will be placed on the map as well as into the panel to
+            the right!</p>
+    </div>
 </body>
 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
