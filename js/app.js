@@ -1,4 +1,4 @@
-(function () {
+(function() {
     var map = L.map('map', {
         center: [36, -94],
         zoom: 4,
@@ -29,7 +29,7 @@
     });
 
     // when control is added
-    sliderControl.onAdd = function (map) {
+    sliderControl.onAdd = function(map) {
 
         // select the current slider with id of 'slider'
         const controls = L.DomUtil.get("range-slider");
@@ -49,10 +49,10 @@
     var slide = document.getElementById('slide'),
         bufferVal = document.getElementById("buffDist");
 
-    slide.oninput = function () {
+    slide.oninput = function() {
         bufferVal.innerHTML = "<b>" + this.value + "</b>";
     };
-    slide.onchange = function () {
+    slide.onchange = function() {
         spotlightSearch(currentLatLng);
     };
 
@@ -61,7 +61,7 @@
     var results = L.layerGroup().addTo(map);
 
     //function to handle the results of an address search
-    searchControl.on('results', function (data) {
+    searchControl.on('results', function(data) {
         results.clearLayers();
         spotlightSearch(data.results[0]);
 
@@ -71,7 +71,7 @@
     function isNumberKey(evt) {
 
         var charCode = (evt.which) ? evt.which : event.keyCode
-        //Make sure the character entered is a number or decimal
+            //Make sure the character entered is a number or decimal
         if (charCode > 31 && (charCode != 46 && (charCode < 48 || charCode > 57))) {
             return false;
         }
@@ -142,17 +142,17 @@
     //Loop through all of the layers and add the data for the plants.
     for (var key in layerInfo) {
         geoJsonLayers[key] = L.geoJson(plants, {
-            pointToLayer: function (feature, latlng) {
+            pointToLayer: function(feature, latlng) {
                 var cMarker = new L.circleMarker(latlng, commonStyles);
                 markerMap[feature.properties.code] = cMarker;
                 return cMarker;
             },
-            filter: function (feature) {
+            filter: function(feature) {
                 if (feature.properties.trueFuel == key) {
                     return feature;
                 }
             },
-            style: function (feature) {
+            style: function(feature) {
                 return {
                     color: '#c8c8c7',
                     fillColor: layercolor[feature.properties.trueFuel],
@@ -177,13 +177,13 @@
     var SpotGroup = L.featureGroup().addTo(map);
 
     //click function for the map. Performs a 500km buffer query and shows only plants that fall within that buffer.
-    map.on('click', function (e) {
+    map.on('click', function(e) {
         spotlightSearch(e);
     });
-    map.on('overlayremove', function (e) {
+    map.on('overlayremove', function(e) {
         spotlightSearch(currentLatLng);
     });
-    map.on('overlayadd', function (e) {
+    map.on('overlayadd', function(e) {
         spotlightSearch(currentLatLng);
     });
     TOC = L.control.layers(null, sourcesLabels, {
@@ -208,7 +208,7 @@
         for (var layer in layerInfo) {
             if (map.hasLayer(geoJsonLayers[layer])) {
 
-                geoJsonLayers[layer].eachLayer(function (layer) {
+                geoJsonLayers[layer].eachLayer(function(layer) {
                     var distance = chosenPoint.latlng.distanceTo(layer.getLatLng()) / 1000;
                     if (distance > bufferKm) {
                         layer.setStyle({
@@ -244,7 +244,7 @@
             $("#totals").html(totalstring);
         }
 
-        $(".borderpop").click(function () {
+        $(".borderpop").click(function() {
             //Get the id of the marker
             var markID = $(this).attr('markerID');
             var marker = markerMap[markID];
@@ -256,7 +256,7 @@
 
         });
 
-        $(".borderpop").mouseover(function () {
+        $(".borderpop").mouseover(function() {
             //Get the id of the marker
             var markID = $(this).attr('markerID');
             var marker = markerMap[markID];
@@ -269,7 +269,7 @@
 
         });
 
-        $(".borderpop").mouseout(function () {
+        $(".borderpop").mouseout(function() {
             //Get the id of the marker
             var markID = $(this).attr('markerID');
             var marker = markerMap[markID];
@@ -305,7 +305,7 @@
             fuelSourceStr;
 
         popup += "<br>This plant is <b>" + (distance * 0.62137119).toLocaleString() + " miles</b> from the original point.";
-        popup += "<br><br><b>BONUS:</b> The <b>" + plantProp.nearestRiver + "</b> is the nearest river in Lousiana and is <b>" + plantProp.riverDistance + " miles</b> from this facility.";
+        //popup += "<br><br><b>BONUS:</b> The <b>" + plantProp.nearestRiver + "</b> is the nearest river in Lousiana and is <b>" + plantProp.riverDistance + " miles</b> from this facility.";
         return popup;
     }
 

@@ -10,11 +10,16 @@ header {
     color: white;
 }
 
+footer {
+    height: 5vh;
+}
+
 .header-wrapper {
     display: grid;
     grid-template-columns: 3fr 1fr;
     column-gap: 12px;
     padding: 18px 12px;
+    height: 5vh;
 }
 
 h1 {
@@ -27,11 +32,20 @@ h1 {
     display: grid;
     grid-template-columns: 3fr 1fr;
     column-gap: 12px;
+    overflow: hidden;
+    height: 75vh;
 }
 
 #map {
-    height: 540px;
+    /* min-height: 540px; */
+    height: 75vh;
+    max-height: 75vh;
     margin: 0;
+}
+
+#results-pane {
+    overflow-y: auto;
+    max-height: 75vh;
 }
 
 #dist-label {
