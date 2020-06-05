@@ -1,4 +1,4 @@
-(function () {
+(function() {
 
     var map = L.map('map', {
         center: [36, -94],
@@ -30,7 +30,7 @@
     });
 
     // when control is added
-    sliderControl.onAdd = function (map) {
+    sliderControl.onAdd = function(map) {
 
         // select the current slider with id of 'slider'
         const controls = L.DomUtil.get("range-slider");
@@ -50,10 +50,10 @@
     var slide = document.getElementById('slide'),
         bufferVal = document.getElementById("buffDist");
 
-    slide.oninput = function () {
+    slide.oninput = function() {
         bufferVal.innerHTML = "<b>" + this.value + "</b>";
     };
-    slide.onchange = function () {
+    slide.onchange = function() {
         spotlightSearch(currentLatLng);
     };
 
@@ -62,23 +62,23 @@
     var results = L.layerGroup().addTo(map);
 
     //function to handle the results of an address search
-    searchControl.on('results', function (data) {
+    searchControl.on('results', function(data) {
         results.clearLayers();
         spotlightSearch(data.results[0]);
 
     });
 
-    $('#back-button').click(function () {
+    $('#back-button').click(function() {
 
-        $('#t-plant-pane').addClass('hide');
-        $('#t-info-pane').removeClass('hide');
+        $('#plant-pane').addClass('hide');
+        $('#info-pane').removeClass('hide');
     });
 
     //Validate number input for buffer radius.
     function isNumberKey(evt) {
 
         var charCode = (evt.which) ? evt.which : event.keyCode
-        //Make sure the character entered is a number or decimal
+            //Make sure the character entered is a number or decimal
         if (charCode > 31 && (charCode != 46 && (charCode < 48 || charCode > 57))) {
             return false;
         }
@@ -149,17 +149,17 @@
     //Loop through all of the layers and add the data for the plants.
     for (var key in layerInfo) {
         geoJsonLayers[key] = L.geoJson(plants, {
-            pointToLayer: function (feature, latlng) {
+            pointToLayer: function(feature, latlng) {
                 var cMarker = new L.circleMarker(latlng, commonStyles);
                 markerMap[feature.properties.code] = cMarker;
                 return cMarker;
             },
-            filter: function (feature) {
+            filter: function(feature) {
                 if (feature.properties.trueFuel == key) {
                     return feature;
                 }
             },
-            style: function (feature) {
+            style: function(feature) {
                 return {
                     color: '#c8c8c7',
                     fillColor: layercolor[feature.properties.trueFuel],
@@ -184,7 +184,7 @@
     var SpotGroup = L.featureGroup().addTo(map);
 
     //click function for the map. Performs a 500km buffer query and shows only plants that fall within that buffer.
-    map.on('click', function (e) {
+    map.on('click', function(e) {
         spotlightSearch(e);
     });
 
@@ -200,13 +200,13 @@
         //prep the sidebar for some knowledge!
         //$("#info-pane").addClass("hide-me");
         //$("#results-pane").html("<h2>Plants within search area:</h2><div id='plant-search-results'></div><br>");
-        //$("#plant-search-results").html("<div id='info-pane'><p>Do you SUSPECT there may be a power plant near you? Does it THRILL you?</p><p>Does it instill a crippling TERROR within you? Either way, this map has you covered!</p><p>There are 3 ways of performing this magical query to solve your quandry:</p><ol><li>Set your buffer distance using the slider below the map.</li><li>Click on the map.</li><li>Search for an address by clicking the magnifying glass on the map.</li></ol></div>");
+        $("#plant-search-results").html("");
         SpotGroup.clearLayers();
         //create an object to hold the totals to use in the spotlight popup.
         var spotTots = {};
 
-        $('#t-plant-pane').removeClass('hide');
-        $('#t-info-pane').addClass('hide');
+        $('#plant-pane').removeClass('hide');
+        $('#info-pane').addClass('hide');
 
 
 
@@ -215,7 +215,7 @@
         for (var layer in layerInfo) {
             if (map.hasLayer(geoJsonLayers[layer])) {
 
-                geoJsonLayers[layer].eachLayer(function (layer) {
+                geoJsonLayers[layer].eachLayer(function(layer) {
                     var distance = chosenPoint.latlng.distanceTo(layer.getLatLng()) / 1000;
                     if (distance > bufferKm) {
                         layer.setStyle({
@@ -251,7 +251,7 @@
             $("#totals").html(totalstring);
         }
 
-        $(".borderpop").click(function () {
+        $(".borderpop").click(function() {
             //Get the id of the marker
             var markID = $(this).attr('markerID');
             var marker = markerMap[markID];
@@ -263,7 +263,7 @@
 
         });
 
-        $(".borderpop").mouseover(function () {
+        $(".borderpop").mouseover(function() {
             //Get the id of the marker
             var markID = $(this).attr('markerID');
             var marker = markerMap[markID];
@@ -276,7 +276,7 @@
 
         });
 
-        $(".borderpop").mouseout(function () {
+        $(".borderpop").mouseout(function() {
             //Get the id of the marker
             var markID = $(this).attr('markerID');
             var marker = markerMap[markID];
@@ -326,11 +326,6 @@
         }
         return popup;
     }
-
-    $("#back-button").on('click', function () {
-        console.log('hi')
-        $("#results-pane").html($("#t-info-pane").html());
-    })
 
 
 })();

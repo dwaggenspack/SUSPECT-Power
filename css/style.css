@@ -14,7 +14,7 @@ footer {
     height: 5vh;
 }
 
-#plantpane {
+#plant-pane {
     padding-top: 1px;
 }
 
@@ -55,10 +55,6 @@ h2 {
 
 #info-pane {
     padding-right: 1px;
-}
-
-.hide-me {
-    visibility: collapse;
 }
 
 #results-pane {
