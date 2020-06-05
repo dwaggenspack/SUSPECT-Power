@@ -69,9 +69,24 @@
     });
 
     $('#back-button').click(function() {
+        console.log("hit");
 
         $('#plant-pane').addClass('hide');
         $('#info-pane').removeClass('hide');
+        SpotGroup.clearLayers();
+        for (var layer in layerInfo) {
+            if (map.hasLayer(geoJsonLayers[layer])) {
+
+                geoJsonLayers[layer].eachLayer(function(layer) {
+                    layer.setStyle({
+                        stroke: true,
+                        fill: true
+                    });
+                    layer.unbindPopup();
+
+                });
+            };
+        };
     });
 
     //Validate number input for buffer radius.
@@ -99,7 +114,7 @@
 
     var geoJsonLayers = {};
 
-    //hold the makers for quick jquery lookup
+    //hold the markers for quick jquery lookup
     var markerMap = {};
 
     //get all of our keys for fuel source
