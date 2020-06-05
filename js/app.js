@@ -325,12 +325,8 @@
             popup += "<br><b style='color:" + layercolor[key] + "'>" + key + "</b>: " + plantTots[key].toLocaleString() + " MW"
         }
         return popup;
+
+
     }
-
-    $("#back-button").on('click', function () {
-        console.log('hi')
-        $("#results-pane").html($("#t-info-pane").html());
-    })
-
 
 })();
