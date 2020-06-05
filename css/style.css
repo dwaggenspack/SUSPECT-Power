@@ -124,3 +124,7 @@ h2 {
     color: black;
     font-size: 1em;
 }
+
+.hide {
+    display: none;
+}
