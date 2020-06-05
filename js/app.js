@@ -1,5 +1,5 @@
 (function() {
-    console.log($("#results-pane").html($("#info-pane").html()));
+    //console.log($("#results-pane").html($("#info-pane").html()));
     // $("#back-button").on("click", backButtonClick());
     var map = L.map('map', {
         center: [36, -94],
