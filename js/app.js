@@ -326,4 +326,10 @@
     }
 
 
+
+
 })();
+
+function backButtonClick() {
+    $("#results-pane").html($("#t-info-pane").html());
+};
