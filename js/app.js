@@ -1,4 +1,6 @@
 (function() {
+    console.log($("#results-pane").html($("#info-pane").html()));
+    // $("#back-button").on("click", backButtonClick());
     var map = L.map('map', {
         center: [36, -94],
         zoom: 4,
@@ -196,7 +198,10 @@
         //variable to hold buffer distance entered
         var bufferKm = $("#slide").val() * 1.609344;
         //prep the sidebar for some knowledge!
-        $(".layout-right").html("<div id='totals'></div><br>");
+        //$("#info-pane").addClass("hide-me");
+        //$("#results-pane").html("<h2>Plants within search area:</h2><div id='plant-search-results'></div><br>");
+        $("#results-pane").html($("#t-plant-pane").html());
+        //$("#plant-search-results").html("<div id='info-pane'><p>Do you SUSPECT there may be a power plant near you? Does it THRILL you?</p><p>Does it instill a crippling TERROR within you? Either way, this map has you covered!</p><p>There are 3 ways of performing this magical query to solve your quandry:</p><ol><li>Set your buffer distance using the slider below the map.</li><li>Click on the map.</li><li>Search for an address by clicking the magnifying glass on the map.</li></ol></div>");
         SpotGroup.clearLayers();
         //create an object to hold the totals to use in the spotlight popup.
         var spotTots = {};
@@ -319,4 +324,6 @@
         }
         return popup;
     }
+
+
 })();

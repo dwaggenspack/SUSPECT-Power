@@ -14,6 +14,10 @@ footer {
     height: 5vh;
 }
 
+#plantpane {
+    padding-top: 1px;
+}
+
 .header-wrapper {
     display: grid;
     grid-template-columns: 3fr 1fr;
@@ -25,6 +29,12 @@ footer {
 h1 {
     font-family: 'Source Serif Pro', serif;
     font-size: 1.7em;
+    margin: 0;
+}
+
+h2 {
+    font-family: 'Source Serif Pro', serif;
+    font-size: 1.5em;
     margin: 0;
 }
 
@@ -41,6 +51,14 @@ h1 {
     height: 75vh;
     max-height: 75vh;
     margin: 0;
+}
+
+#info-pane {
+    padding-right: 1px;
+}
+
+.hide-me {
+    visibility: collapse;
 }
 
 #results-pane {
@@ -81,4 +99,28 @@ h1 {
 
 .leaflet-popup-content-wrapper {
     background-color: #f3f3f3;
+}
+
+#back-button {
+    border: none;
+    /* text-decoration: none; */
+    display: inline-block;
+    padding: 8px 16px;
+}
+
+#back-button:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+#back-button:active {
+    /* A bit of an Easter egg: Kentucky Colors */
+    background-color: #0033a0;
+    color: white;
+}
+
+.previous {
+    background-color: #f1f1f1;
+    color: black;
+    font-size: 1em;
 }

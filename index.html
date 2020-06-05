@@ -17,24 +17,13 @@
         <div>
             <h1>United States Power Generation &amp; Carbon Transmission</h1>
         </div>
-        <div>
-            <p>Do you SUSPECT there may be a power plant near you? Does it THRILL you?</p>
-            <p>Does it instill a crippling TERROR within you? Either way, this map has you covered!</p>
-            <p>There are 3 ways of performing this magical query to solve your quandry:</p>
-            <ol>
-                <li>Set your buffer distance using the slider below the map.</li>
-                <li>Click on the map.</li>
-                <li>Search for an address by clicking the magnifying glass on the map.</li>
-            </ol>
-        </div>
     </header>
     <div class="body-wrapper">
         <div>
             <div id="map"></div>
         </div>
+
         <div id="results-pane">
-            <h2>Plants within search area</h2>
-            <div id="plant-search-results"></div>
         </div>
     </div>
     <footer>
@@ -53,6 +42,8 @@
     </div>
 
 </body>
+
+
 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
 <script src="https://unpkg.com/esri-leaflet@2.4.1/dist/esri-leaflet.js" integrity="sha512-xY2smLIHKirD03vHKDJ2u4pqeHA7OQZZ27EjtqmuhDguxiUvdsOuXMwkg16PQrm9cgTmXtoxA6kwr8KBy3cdcw==" crossorigin=""></script>
 <script src="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.js" integrity="sha512-HrFUyCEtIpxZloTgEKKMq4RFYhxjJkCiF5sDxuAokklOeZ68U2NPfh4MFtyIVWlsKtVbK5GD2/JzFyAfvT5ejA==" crossorigin=""></script>
@@ -64,5 +55,34 @@
 <!--    The meat and potatoes-->
 <script src="js/app.js">
 </script>
+<script>
+    $("#results-pane").html($("#t-info-pane").html());
+
+    function backButtonClick() {
+        console.log("Ranit");
+        $("#results-pane").html($("#t-info-pane").html());
+    };
+</script>
+
+<!-- Added to the panel when query runs  -->
+<template id="t-plant-pane">
+<div id="plantpane">
+    <button id="back-button" class="previous" onclick="backButtonClick()">&#xab; Back</button>
+    <h2>Plants within search area</h2>
+    <div id="plant-search-results"></div>
+</div>
+</template>
+<template id="t-info-pane">
+<div id="info-pane">
+    <p>Do you SUSPECT there may be a power plant near you? Does it THRILL you?</p>
+    <p>Does it instill a crippling TERROR within you? Either way, this map has you covered!</p>
+    <p>There are 3 ways of performing this magical query to solve your quandry:</p>
+    <ol>
+        <li>Set your buffer distance using the slider below the map.</li>
+        <li>Click on the map.</li>
+        <li>Search for an address by clicking the magnifying glass on the map.</li>
+    </ol>
+</div>
+</template>
 
 </html>
