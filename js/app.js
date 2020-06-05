@@ -54,7 +54,11 @@
         bufferVal.innerHTML = "<b>" + this.value + "</b>";
     };
     slide.onchange = function() {
-        spotlightSearch(currentLatLng);
+        //Only rerun the query with the new buffer in within a query.
+        if (!$("#plant-pane").hasClass("hide")) {
+            spotlightSearch(currentLatLng);
+
+        }
     };
 
     var TOC;
@@ -201,6 +205,12 @@
     //click function for the map. Performs a 500km buffer query and shows only plants that fall within that buffer.
     map.on('click', function(e) {
         spotlightSearch(e);
+    });
+    map.on('overlayremove', function(e) {
+        spotlightSearch(currentLatLng);
+    });
+    map.on('overlayadd', function(e) {
+        spotlightSearch(currentLatLng);
     });
 
     TOC = L.control.layers(null, sourcesLabels, {
