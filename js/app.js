@@ -71,6 +71,7 @@
     $('#back-button').click(function () {
 
         $('#t-plant-pane').addClass('hide');
+        $('#t-info-pane').removeClass('hide');
     });
 
     //Validate number input for buffer radius.
@@ -205,6 +206,7 @@
         var spotTots = {};
 
         $('#t-plant-pane').removeClass('hide');
+        $('#t-info-pane').addClass('hide');
 
 
 
