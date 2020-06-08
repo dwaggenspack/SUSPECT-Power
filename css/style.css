@@ -101,7 +101,8 @@ h2 {
     border: none;
     /* text-decoration: none; */
     display: inline-block;
-    padding: 8px 16px;
+    padding: 4px 8px;
+    margin-top: 3px;
 }
 
 #back-button:hover {
