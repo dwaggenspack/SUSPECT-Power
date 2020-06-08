@@ -22,7 +22,7 @@
     tiles.addTo(map);
 
     //add address search to the map
-    var searchControl = L.esri.Geocoding.geosearch().addTo(map);
+    var searchControl = L.esri.Geocoding.geosearch({ zoomToResult: false }).addTo(map);
 
     // create Leaflet control for the slider
     const sliderControl = L.control({
@@ -63,11 +63,12 @@
 
     var TOC;
 
-    var results = L.layerGroup().addTo(map);
+    //var results = L.layerGroup().addTo(map);
 
     //function to handle the results of an address search
     searchControl.on('results', function(data) {
-        results.clearLayers();
+
+        //results.clearLayers();
         spotlightSearch(data.results[0]);
 
     });
@@ -318,8 +319,10 @@
             color: '#303030',
             stroke: false
         }).bindPopup(buildSpotPopup(spotTots)).addTo(SpotGroup).bringToBack();
-        map.fitBounds(SpotGroup.getBounds(0));
 
+        //get the map to show our results
+        map.fitBounds(SpotGroup.getBounds(0));
+        console.log(SpotGroup.getBounds(0));
     };
 
     //function to build the popup for the plants
