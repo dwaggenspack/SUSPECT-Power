@@ -131,3 +131,9 @@ h2 {
 .hide {
     display: none;
 }
+
+.clicked-plant {
+    border-color: darkslategray;
+    border-width: 8px;
+    border: solid;
+}

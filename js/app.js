@@ -77,6 +77,7 @@
 
         $('#plant-pane').addClass('hide');
         $('#info-pane').removeClass('hide');
+        map.closePopup();
         SpotGroup.clearLayers();
         for (var layer in layerInfo) {
             if (map.hasLayer(geoJsonLayers[layer])) {
@@ -219,6 +220,7 @@
 
     //function to handle spotlight and search for power plants
     function spotlightSearch(chosenPoint) {
+        map.closePopup();
         currentLatLng = chosenPoint;
         //variable to hold buffer distance entered
         var bufferKm = $("#slide").val() * 1.609344;
@@ -362,6 +364,7 @@
     }
 
     function plantClicked(e) {
+        $('.clicked-plant').removeClass('clicked-plant');
         var $container = $('#results-pane'),
             ident = '#a' + e.layer.feature.properties.code,
             $scrollTo = $(ident);
@@ -369,6 +372,7 @@
         $container.scrollTop(
             $scrollTo.offset().top - $container.offset().top + $container.scrollTop()
         );
+        $scrollTo.addClass('clicked-plant');
 
         /* // Or you can animate the scrolling:
         $container.animate({
