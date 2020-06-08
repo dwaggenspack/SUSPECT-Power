@@ -62,6 +62,12 @@ h2 {
     max-height: 75vh;
 }
 
+
+/* #plant-search-results {
+    overflow-y: auto;
+    max-height: 60vh;
+} */
+
 #dist-label {
     padding-left: 10px;
 }

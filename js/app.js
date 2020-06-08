@@ -22,7 +22,7 @@
     tiles.addTo(map);
 
     //add address search to the map
-    var searchControl = L.esri.Geocoding.geosearch({ zoomToResult: false }).addTo(map);
+    var searchControl = L.esri.Geocoding.geosearch({ zoomToResult: false, expanded: true }).addTo(map);
 
     // create Leaflet control for the slider
     const sliderControl = L.control({
@@ -74,7 +74,6 @@
     });
 
     $('#back-button').click(function() {
-        console.log("hit");
 
         $('#plant-pane').addClass('hide');
         $('#info-pane').removeClass('hide');
@@ -241,6 +240,12 @@
         for (var layer in layerInfo) {
             if (map.hasLayer(geoJsonLayers[layer])) {
 
+                geoJsonLayers[layer].on('click', function(e) {
+                    if (!$("#plant-pane").hasClass("hide")) {
+                        plantClicked(e);
+                    }
+                });
+
                 geoJsonLayers[layer].eachLayer(function(layer) {
                     var distance = chosenPoint.latlng.distanceTo(layer.getLatLng()) / 1000;
                     if (distance > bufferKm) {
@@ -258,8 +263,10 @@
                         var fullPopup = buildPopup(layer.feature.properties, distance);
                         layer.bindPopup("<div>" + fullPopup + "</div><br>");
 
-                        $('#plant-search-results').append("<div id='" + layer.feature.properties.plant_name +
+                        $('#plant-search-results').append("<div id='a" + layer.feature.properties.code +
                             "' class='borderpop' markerID='" + layer.feature.properties.code + "'>" + fullPopup + "</div>");
+
+
 
                         for (var key in layer.feature.properties.fuel_source) {
 
@@ -322,7 +329,6 @@
 
         //get the map to show our results
         map.fitBounds(SpotGroup.getBounds(0));
-        console.log(SpotGroup.getBounds(0));
     };
 
     //function to build the popup for the plants
@@ -353,6 +359,22 @@
             popup += "<br><b style='color:" + layercolor[key] + "'>" + key + "</b>: " + plantTots[key].toLocaleString() + " MW"
         }
         return popup;
+    }
+
+    function plantClicked(e) {
+        var $container = $('#results-pane'),
+            ident = '#a' + e.layer.feature.properties.code,
+            $scrollTo = $(ident);
+
+        $container.scrollTop(
+            $scrollTo.offset().top - $container.offset().top + $container.scrollTop()
+        );
+
+        /* // Or you can animate the scrolling:
+        $container.animate({
+            scrollTop: $scrollTo.offset().top - $container.offset().top + $container.scrollTop()
+        });​ */
+        //console.log(e.layer.feature.properties.code);
     }
 
 
