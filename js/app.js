@@ -114,7 +114,8 @@
     var commonStyles = {
         weight: .2,
         stroke: 1,
-        fillOpacity: .7
+        fillOpacity: .7,
+        bubblingMouseEvents: false
     }
 
     var geoJsonLayers = {};
@@ -205,6 +206,7 @@
 
     //click function for the map. Performs a 500km buffer query and shows only plants that fall within that buffer.
     map.on('click', function(e) {
+        console.log(e);
         spotlightSearch(e);
     });
     map.on('overlayremove', function(e) {
@@ -263,7 +265,7 @@
                         });
 
                         var fullPopup = buildPopup(layer.feature.properties, distance);
-                        layer.bindPopup("<div>" + fullPopup + "</div><br>");
+                        layer.bindTooltip("<div>" + fullPopup + "</div><br>");
 
                         $('#plant-search-results').append("<div id='a" + layer.feature.properties.code +
                             "' class='borderpop' markerID='" + layer.feature.properties.code + "'>" + fullPopup + "</div>");
