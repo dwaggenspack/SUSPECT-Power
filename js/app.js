@@ -114,7 +114,8 @@
     var commonStyles = {
         weight: .2,
         stroke: 1,
-        fillOpacity: .7
+        fillOpacity: .7,
+        bubblingMouseEvents: false
     }
 
     var geoJsonLayers = {};
