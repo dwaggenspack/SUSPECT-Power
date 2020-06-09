@@ -139,5 +139,5 @@ h2 {
 }
 .leaflet-control {
     float: left;
-    clear: both;
+    clear: none;
 }
