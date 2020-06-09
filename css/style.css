@@ -137,7 +137,11 @@ h2 {
     border-width: 8px;
     border: solid;
 }
-.leaflet-left .leaflet-control-scale {
+/*.leaflet-left .leaflet-control-scale {
   display: inline-block;
   float: none;
+}*/
+.leaflet-control {
+    float: left;
+    clear: none;
 }
