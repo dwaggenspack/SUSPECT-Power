@@ -206,7 +206,6 @@
 
     //click function for the map. Performs a 500km buffer query and shows only plants that fall within that buffer.
     map.on('click', function(e) {
-        console.log(e);
         spotlightSearch(e);
     });
     map.on('overlayremove', function(e) {
