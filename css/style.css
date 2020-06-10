@@ -133,14 +133,13 @@ h2 {
 }
 
 .clicked-plant {
-    border-color: darkslategray;
+    background-color: darkgray;
+    color: white;
     border-width: 8px;
     border: solid;
+    border-color: yellow;
 }
-/*.leaflet-left .leaflet-control-scale {
-  display: inline-block;
-  float: none;
-}*/
+
 .leaflet-control {
     float: left;
     clear: none;
