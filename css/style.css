@@ -133,7 +133,7 @@ h2 {
 }
 
 .clicked-plant {
-    background-color: darkgray;
+    background-color: #555555;
     color: white;
     border-width: 8px;
     border: solid;
