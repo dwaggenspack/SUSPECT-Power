@@ -12,6 +12,7 @@ header {
 
 footer {
     height: 5vh;
+    margin: 0;
     margin-left: 1vw;
 }
 
@@ -154,4 +155,5 @@ h2 {
 .links:hover {
     color: purple;
     background-color: lightgrey;
+    border-radius: 5px;
 }
