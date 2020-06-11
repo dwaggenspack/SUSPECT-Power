@@ -1,4 +1,9 @@
-(function() {
+const powerplants = d3.json('/data/plants.geojson');
+Promise.all([powerplants]).then(function(data) {
+    loadedPlants(data[0]);
+});
+
+function loadedPlants(plants) {
 
     var map = L.map('map', {
         center: [36, -94],
@@ -383,4 +388,4 @@
     }
 
 
-})();
+}
