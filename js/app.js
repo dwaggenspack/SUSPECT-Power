@@ -282,7 +282,7 @@ function loadedPlants(plants) {
                             //Otherwise it will not do the totals.
                             spotTots[key] = spotTots[key] ? spotTots[key] : 0;
                             //total the fuel source
-                            spotTots[key] += layer.feature.properties.fuel_source[key];
+                            spotTots[key] += Number(layer.feature.properties.fuel_source[key]);
 
                         }
                     };
