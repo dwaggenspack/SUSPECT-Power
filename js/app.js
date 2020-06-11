@@ -2,37 +2,38 @@ const powerplants = d3.json('data/plants.geojson');
 Promise.all([powerplants]).then(function(data) {
     loadedPlants(data[0]);
 });
+var map = L.map('map', {
+    center: [36, -94],
+    zoom: 4,
+    maxBounds: [
+        [7.536764322084078, -180.35156250000003],
+        [76.05850791800295, -16.523437500000004]
+    ]
+});
+
+//hold the current latlng in case user just wants to change the buffer.
+var currentLatLng = {
+    latlng: L.latLng(38.0307, -84.5040)
+};
+var tiles = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://cartodb.com/attributions">Carto</a>',
+    subdomains: 'abcd',
+    minZoom: 3
+});
+
+tiles.addTo(map);
+
+//add address search to the map
+var searchControl = L.esri.Geocoding.geosearch({ zoomToResult: false, expanded: true }).addTo(map);
+
+// create Leaflet control for the slider
+const sliderControl = L.control({
+    position: 'bottomleft'
+});
 
 function loadedPlants(plants) {
 
-    var map = L.map('map', {
-        center: [36, -94],
-        zoom: 4,
-        maxBounds: [
-            [7.536764322084078, -180.35156250000003],
-            [76.05850791800295, -16.523437500000004]
-        ]
-    });
 
-    //hold the current latlng in case user just wants to change the buffer.
-    var currentLatLng = {
-        latlng: L.latLng(38.0307, -84.5040)
-    };
-    var tiles = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://cartodb.com/attributions">Carto</a>',
-        subdomains: 'abcd',
-        minZoom: 3
-    });
-
-    tiles.addTo(map);
-
-    //add address search to the map
-    var searchControl = L.esri.Geocoding.geosearch({ zoomToResult: false, expanded: true }).addTo(map);
-
-    // create Leaflet control for the slider
-    const sliderControl = L.control({
-        position: 'bottomleft'
-    });
 
     // when control is added
     sliderControl.onAdd = function(map) {
@@ -119,7 +120,7 @@ function loadedPlants(plants) {
     var commonStyles = {
         weight: .2,
         stroke: 1,
-        fillOpacity: .7,
+        fillOpacity: .8,
         bubblingMouseEvents: false
     }
 
@@ -186,10 +187,11 @@ function loadedPlants(plants) {
                 }
             },
             style: function(feature) {
+                //var rad = feature.properties.capacity_mw
                 return {
                     color: '#c8c8c7',
                     fillColor: layercolor[feature.properties.trueFuel],
-                    radius: 7
+                    radius: 4
                 }
             }
         }).addTo(map);
