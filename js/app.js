@@ -1,4 +1,4 @@
-const powerplants = d3.json('/data/plants.geojson');
+const powerplants = d3.json('data/plants.geojson');
 Promise.all([powerplants]).then(function(data) {
     loadedPlants(data[0]);
 });
