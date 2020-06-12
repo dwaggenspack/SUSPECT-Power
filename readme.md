@@ -7,14 +7,14 @@ This map represents the geographic distribution of power generating plants acros
 The intended user of this map is those curious or caution about where they may be in relation to these plants.  It is essentially attempting to be a playful look at something that some in society would dread.  Worries about what ifs something went wrong, but at the same time, hoping they understand that these plants did not just pop into existence overnight.  Teaching them that knowing of a phenomena might uncloud the fears they may have had.
 
 ## II. Methodology
-I created a map from plant data from the [Energy Information Agency](http://www.eia.gov/electricity/data/eia923/).  I had to perform some data wrangling and cleanup in a Jupyter Notebook to get it into a more streamlined format.  That data was then used to create a web application in which a user could explore the many plants around a user-defined space.
+I created a map from plant data from the [U.S. Energy Information Administration](http://www.eia.gov/electricity/data/eia923/).  I had to perform some data wrangling and cleanup in a Jupyter Notebook to get it into a more streamlined format.  That data was then used to create a web application in which a user could explore the many plants around a user-defined space.
 
 First provide a general statement summarizing the following subsections (one or two sentences).
 
 ### A. Data
 What are the content requirements for your map? Provide a description of the following:
 
-Plant data from the [Energy Information Agency Plants Shapefile](https://www.eia.gov/maps/map_data/PowerPlants_US_EIA.zip) was formatted and cleaned up in [Jupyter Notebooks](https://github.com/dwaggenspack/SUSPECT-Power/blob/master/notebooks/PowerPlants.ipynb) (Python 3) with the geopandas module and some creative data wrangling.  It was then written out to the web app's data folder as [plants.geojson](https://github.com/dwaggenspack/SUSPECT-Power/blob/master/data/plants.geojson)
+Plant data from the [U.S. Energy Information Administration Plants Shapefile](https://www.eia.gov/maps/map_data/PowerPlants_US_EIA.zip) was formatted and cleaned up in [Jupyter Notebooks](https://github.com/dwaggenspack/SUSPECT-Power/blob/master/notebooks/PowerPlants.ipynb) (Python 3) with the geopandas module and some creative data wrangling.  It was then written out to the web app's data folder as [plants.geojson](https://github.com/dwaggenspack/SUSPECT-Power/blob/master/data/plants.geojson)
 
 <table border="1" class="dataframe">
   <thead>
