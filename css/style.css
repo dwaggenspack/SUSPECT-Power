@@ -157,3 +157,8 @@ h2 {
     background-color: lightgrey;
     border-radius: 5px;
 }
+
+.table {
+    font-family: 'PT Serif', serif;
+    font-size: 1.2em;
+}

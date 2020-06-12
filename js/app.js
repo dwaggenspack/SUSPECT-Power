@@ -135,7 +135,7 @@ function loadedPlants(plants) {
     var commonStyles = {
         weight: .2,
         stroke: 1,
-        fillOpacity: .8,
+        fillOpacity: .7,
         bubblingMouseEvents: false
     }
 
@@ -214,7 +214,7 @@ function loadedPlants(plants) {
     }
     var sourcesLabels = {};
     for (var key in layercolor) {
-        var layerKey = "<span style='color:" + layercolor[key] + "'>" + key + "</span>";
+        var layerKey = "<span class='table' style='color:" + layercolor[key] + "'>" + key + "</span>";
         sourcesLabels[layerKey] = geoJsonLayers[key];
     }
 
