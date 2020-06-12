@@ -1,4 +1,4 @@
-# United States Power Generation &amp; Location
+# [United States Power Generation &amp; Location](https://dwaggenspack.github.io/SUSPECT-Power/)
 
 ## I. Introduction
 
