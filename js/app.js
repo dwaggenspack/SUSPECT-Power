@@ -100,6 +100,7 @@ function loadedPlants(plants) {
         $('#info-pane').removeClass('hide');
         map.closePopup();
         SpotGroup.clearLayers();
+        map.setView([36, -94], 4);
         for (var layer in layerInfo) {
             if (map.hasLayer(geoJsonLayers[layer])) {
 
