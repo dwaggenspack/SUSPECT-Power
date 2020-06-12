@@ -30,28 +30,45 @@ var searchControl = L.esri.Geocoding.geosearch({ zoomToResult: false, expanded: 
 const sliderControl = L.control({
     position: 'bottomleft'
 });
+// when control is added
+sliderControl.onAdd = function(map) {
 
-function loadedPlants(plants) {
+    // select the current slider with id of 'slider'
+    const controls = L.DomUtil.get("range-slider");
 
+    // disable scroll and click events on map beneath slider
+    L.DomEvent.disableScrollPropagation(controls);
+    L.DomEvent.disableClickPropagation(controls);
 
+    // return selection to control
+    return controls;
 
-    // when control is added
-    sliderControl.onAdd = function(map) {
+}
 
-        // select the current slider with id of 'slider'
-        const controls = L.DomUtil.get("range-slider");
+// add the control to the map
+sliderControl.addTo(map);
 
-        // disable scroll and click events on map beneath slider
-        L.DomEvent.disableScrollPropagation(controls);
-        L.DomEvent.disableClickPropagation(controls);
+var slide = document.getElementById('slide'),
+    bufferVal = document.getElementById("buffDist");
 
-        // return selection to control
-        return controls;
+slide.oninput = function() {
+    bufferVal.innerHTML = "<b>" + this.value + "</b>";
+};
+slide.onchange = function() {
+    //Only rerun the query with the new buffer in within a query.
+    if (!$("#plant-pane").hasClass("hide")) {
+        spotlightSearch(currentLatLng);
 
     }
+};
 
-    // add the control to the map
-    sliderControl.addTo(map);
+function loadedPlants(plants) {
+    //max and min for radius later
+    //var cap_max = d3.max(plants.features, d => d.properties.capacity_mw);
+    //var cap_min = d3.min(plants.features, d => d.properties.capacity_mw);
+    var scale = d3.scaleSqrt()
+        .domain([d3.min(plants.features, d => d.properties.capacity_mw), d3.max(plants.features, d => d.properties.capacity_mw)])
+        .range([3, 10]);
 
     var slide = document.getElementById('slide'),
         bufferVal = document.getElementById("buffDist");
@@ -191,7 +208,7 @@ function loadedPlants(plants) {
                 return {
                     color: '#c8c8c7',
                     fillColor: layercolor[feature.properties.trueFuel],
-                    radius: 4
+                    radius: scale(feature.properties.capacity_mw)
                 }
             }
         }).addTo(map);
