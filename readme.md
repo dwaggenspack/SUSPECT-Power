@@ -6,82 +6,139 @@ This map represents the geographic distribution of power generating plants accro
 
 The intended user of this map is those curious or caution about where they may be in relation to these plants.  It is essentially attempting to be a playful look at something that some in society would dread.  Worries about what ifs something went wrong, but at the same time, hoping they understand that these plants did not just pop into existence overnight.  Teaching them that knowing of a phenomena might uncloud the fears they may have had.
 
-Provide an introductory paragraph or two. This should answer the following questions for your reader:
-
-What geographical phenomena or processes does the map represent?
-what are the real world entities or processes you are mapping?
-where are do these entities or processes occur?
-when did these phenomena or processes happen?
-What work will the map do?
-Frame this answer in terms of the intended user or audience and the user experience (UX) you're seeking to create. - e.g., "The map will appeal to X people and show/reveal/explore Y and Z to them ...".
-Then, describe how it will affect the user. - e.g., "The user will be informed/inspired/motivated/emotional/made more curious ...".
-Finally, provide a statement of the project's broader impact. - e.g., "The map will help provide an unmet need for society to better understand X."
-[possible mockup/wireframe here]
-
 ## II. Methodology
+I created a map from plant data from the [Energy Information Agency](http://www.eia.gov/electricity/data/eia923/).  I had to perform some data wrangling and cleanup in a Jupyter Notebook to get it into a more streamlined format.  That data was then used to create a web application in which a user could explore the many plants around a user-defined space.
+
 First provide a general statement summarizing the following subsections (one or two sentences).
 
 ### A. Data
 What are the content requirements for your map? Provide a description of the following:
 
-data source(s) with links
-wrangling and analysis process (include indication of tools you used, e.g., QGIS, spreadsheet applications, Python/Jupyter Notebooks, pandos, etc)
-an example of the cleaned data (e.g., the first 10 rows of a pandas GeoDataframe or CSV file ... could be a screenshot or you can format example within a Markdown table. If in Jupyter notebooks export to HTML and copy/paste the table created with a DataFrame)
-anticipated format when ready for web map (e.g., GeoJSON/CSV flat files, remote-hosted PostGres database, etc).
-additional content you'll want to obtain or generate for the final map (supplementary descriptive text, images, etc).
+Plant data from the [Energy Information Agency Plants Shapefile](https://www.eia.gov/maps/map_data/PowerPlants_US_EIA.zip) was formatted and cleaned up in [Jupyter Notebooks](https://github.com/dwaggenspack/SUSPECT-Power/blob/master/notebooks/PowerPlants.ipynb) (Python 3) with the geopandas module and some creative data wrangling.  It was then written out to the web app's data folder as [plants.geojson](https://github.com/dwaggenspack/SUSPECT-Power/blob/master/data/plants.geojson)
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>code</th>
+      <th>plant_name</th>
+      <th>capacity_mw</th>
+      <th>fuel_source</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>Bankhead Dam</td>
+      <td>53.0</td>
+      <td>{'Hydroelectric': '53'}</td>
+      <td>POINT (-87.35682 33.45867)</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>Barry</td>
+      <td>2386.9</td>
+      <td>{'Coal': '1118.5', 'Natural Gas': '1268.4'}</td>
+      <td>POINT (-88.01030 31.00690)</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4</td>
+      <td>Walter Bouldin Dam</td>
+      <td>224.1</td>
+      <td>{'Hydroelectric': '224.1'}</td>
+      <td>POINT (-86.28306 32.58389)</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7</td>
+      <td>Gadsden</td>
+      <td>130.0</td>
+      <td>{'Natural Gas': '130'}</td>
+      <td>POINT (-85.97080 34.01280)</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>9</td>
+      <td>Copper</td>
+      <td>63.0</td>
+      <td>{'Natural Gas': '63'}</td>
+      <td>POINT (-106.37500 31.75690)</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>10</td>
+      <td>Greene County</td>
+      <td>1256.1</td>
+      <td>{'Natural Gas': '1256.1'}</td>
+      <td>POINT (-87.78110 32.60170)</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>11</td>
+      <td>H Neely Henry Dam</td>
+      <td>71.1</td>
+      <td>{'Hydroelectric': '71.1'}</td>
+      <td>POINT (-86.05240 33.78450)</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>12</td>
+      <td>Holt Dam</td>
+      <td>48.0</td>
+      <td>{'Hydroelectric': '48'}</td>
+      <td>POINT (-87.44950 33.25530)</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>13</td>
+      <td>Jordan Dam</td>
+      <td>129.2</td>
+      <td>{'Hydroelectric': '129.2'}</td>
+      <td>POINT (-86.25480 32.61890)</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>14</td>
+      <td>Logan Martin Dam</td>
+      <td>129.0</td>
+      <td>{'Hydroelectric': '129'}</td>
+      <td>POINT (-86.33755 33.42588)</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div></div><div class="btn btn-default output_collapsed" title="click to expand output" style="display: none;">. . .</div></div></div>
+
 ### B. Medium for delivery
-Begin with a topic sentence, something like, "The map will be a web browser-based application accessible across mobile and desktop devices ...."
+The map is be a web browser-based application accessible on non-Internet Explorer browsers.  It has been tested on Edge, Chrome, and FireFox. The application uses HTML, CSS, and Javascript with the [D3](https://d3js.org/), [Jquery](https://jquery.com/), and [Leaflet libraries](https://leafletjs.com/).  Geocoding is performed using the [esri-leaflet-geocoder](https://github.com/Esri/esri-leaflet-geocoder)
 
-Then provide a description of your anticipated technology stack and likely JavaScript libraries. For most of us the baseline will be HTML/SVG/CSS/JS and Leaflet. We'll likely want to user a responsive framework (i.e., Bootstrap, Assembly.css).
-
-Given your representation and interaction requirements listed below, consider what other libraries you may use. For example, if you're going to do some buffer analysis perhaps you'll use Turf.js. If classifying data on the fly, perhaps simple-statistics.js. If doing address geolocation in a search bar or routing, then note these as well.
-
-It will be nice to include active links to these libraries within the Markdown proposal.
 
 ### C. Application layout
-Here you'll want to consider the general layout of the web page and how it will "respond" to different device sizes. It's probably easiest to include 2 or three very simple wireframes showing mobile, tablet, and desktop layouts (not detailed mockups).
-
-Also see: https://gistbok.ucgis.org/bok-topics/mobile-maps-and-responsive-design (Links to an external site.)
+Application is laid out to resize for many different landscape sizes.  Application allows for overflow scrolling on results panel without resizing the entire page to have to scroll where the map would not be visible.
 
 ### D. Thematic representation
-Here describe how the data will be visually represented (points, lines, polygons) and what thematic technique you will employ (icons or proportional symbols for points, classified choropleth for polygons).
+Plants are represented by CircleMarker symbols with colord dynamically chosen at application load from a preset array of colors.
 
-You may also want to indicate what visual variables you will use to encode your information (i.e., the size of the proportional symbol to encode the amount of X, different hues to encode nominal distinctions between features).
+The radius of the CircleMarkers are based on the MegaWatt capacity of the plant scaled down to a radius between 4 and 12 using the d3.scaleSqrt() function and the d3.max and d3.min functions to find the maximum and minimum for the domains.
 
-Also see: https://gistbok.ucgis.org/bok-topics/symbolization-and-visual-variables (Links to an external site.)
 
 ### E. User interaction
-In this section describe how the user will engage or interact with the map. Will be a more simple scrolling interface? With the user need to pan/zoom and hover or click on features to retrieve information? Will there be additional user interaction elements for selecting, filtering, or changing the map?
+The user is able to pan and zoom around on the map using mouse inputs as well as the zoom control in the upper left of the map.  There is a slider control where the user can drag the thumb to increase or decrease the radius that the buffer query will use.  On the right side of the map is a layer control.  The fuel sources for the plants are listed in the color they were assigned on data load.  By clicking the checkboxes, the user is able to remove plants with fuel sources that they do not wish to query.  This also removes them from a query that has already run.  
 
-Describe what the user interface will be composed of (toggle buttons, search forms, .etc) and the result. How will the UI elements affect the representation of the data or map experience?
+By either clicking anywhere on the map or entering an address into the search at the top left of the map, the selected point is be used in a query to populate a side panel with an interactive list of plants within a radius of the chosen point as well as display the total number of plants meeting the query critera.  Hovering over any item on the list of plants highlights the plant marker on the map.  
 
-Include additional mockups of either the entire application or specific parts of the user interface.
+While the query is active, clicking on the buffer opens a summary statistics panel, showing the total MegaWatt capacity of all the plants within the buffer as well as a breakdown of each individual fuel source and their contributions to the total.
+By hovering over a marker, a tooltip displays with information about the plant.  Clicking on a plant causes the right panel to automatically scroll to and highlight the appropriate plant listing.
 
-You may want to include an example of a user persona/scenario here if it helps describe the intent of your map design (see MAP673 modules 05/06).
-
-Also see: https://gistbok.ucgis.org/bok-topics/user-interface-and-user-experience-uiux-design (Links to an external site.)
+The back button resets the map to a pre-query state, resetting the side panel with the intro instructions, removing the query buffer layer, and showing the fuel layers chosen by the user.
 
 ### F. Aesthetics and design considerations
-Here a full-blown mockup may be useful, but not necessary. You may also simply offer some anticipated design solutions for your map. Think about:
+I went with a mix between a light and dark color theme in an attempt to balance readability of both text and symbols as well as offering a good contrast.  By this balance, I was trying to establish a neutral tone.
 
-colors (what's the tone of the map?)
-dark vs light motif
-font choices
-modern or flat design? something more flamboyant or artsy?
 ### G. Conclusion
 Provide a brief (one or two paragraphs) statement to conclude the proposal. This will likely be restating what you said in the introduction, but also (re)consider the format we used in the first assignment (a topic with a motivating question).
-
-# SUSPECT Power map
-
-Do you SUSPECT there may be a power plant near you?
-
-Does it THRILL you? Does it instill a crippling TERROR within you?
-Either way, this map has you covered!
-
-There are 2 ways of performing this magical query to solve your quandry!
-
-1. Set your buffer distance in the box on the map.
-2. Either click on the map or enter an address in the bar to initiate a search.
-3. Behold the magic!
-
-All of the power plants in within your search area will be placed on the map as well as into the panel to the right!
+As I mentioned before, this map represents a geographic distribution of power plants accross the United States.  
+I was able to test it with multiple users who all had positive reaction.  Most had the reaction I was going for, they looked up their house address and those of friends, and started a discussion about how close some of these plants were and that they "had no idea" that there were so many nearby.
