@@ -1,6 +1,10 @@
-# Map Title
+# United States Power Generation &amp; Location
 
 ## I. Introduction
+
+This map represents the geographic distribution of power generating plants accross the United States.  The map will be able to reveal the locations of these power plants and a user provided location.  
+
+The intended user of this map is those curious or caution about where they may be in relation to these plants.  It is essentially attempting to be a playful look at something that some in society would dread.  Worries about what ifs something went wrong, but at the same time, hoping they understand that these plants did not just pop into existence overnight.  Teaching them that knowing of a phenomena might uncloud the fears they may have had.
 
 Provide an introductory paragraph or two. This should answer the following questions for your reader:
 

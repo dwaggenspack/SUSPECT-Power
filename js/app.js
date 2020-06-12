@@ -251,6 +251,7 @@ function loadedPlants(plants) {
         //prep the sidebar for some knowledge!
         //$("#info-pane").addClass("hide-me");
         //$("#results-pane").html("<h2>Plants within search area:</h2><div id='plant-search-results'></div><br>");
+        $('#plant_total').html("");
         $("#plant-search-results").html("");
         SpotGroup.clearLayers();
         //create an object to hold the totals to use in the spotlight popup.
@@ -306,8 +307,9 @@ function loadedPlants(plants) {
                     };
                 });
             };
-            var totalstring = "There are <b>" + count + "</b> power plants that are <b>" + $("#slide").val() + " Miles</b> from the selected origin."
-            $("#totals").html(totalstring);
+            $('#plant_total').html(count);
+            /* var totalstring = "There are <b>" + count + "</b> power plants that are <b>" + $("#slide").val() + " Miles</b> from the selected origin."
+            $("#totals").html(totalstring); */
         }
 
         $(".borderpop").click(function() {
