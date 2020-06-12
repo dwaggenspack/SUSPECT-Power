@@ -63,12 +63,10 @@ slide.onchange = function() {
 };
 
 function loadedPlants(plants) {
-    //max and min for radius later
-    //var cap_max = d3.max(plants.features, d => d.properties.capacity_mw);
-    //var cap_min = d3.min(plants.features, d => d.properties.capacity_mw);
+    //create a scale for our proportional symbols to use
     var scale = d3.scaleSqrt()
         .domain([d3.min(plants.features, d => d.properties.capacity_mw), d3.max(plants.features, d => d.properties.capacity_mw)])
-        .range([3, 10]);
+        .range([4, 12]);
 
     var slide = document.getElementById('slide'),
         bufferVal = document.getElementById("buffDist");
@@ -176,7 +174,7 @@ function loadedPlants(plants) {
 
 
     var layercolor = {};
-    var colors = ['#1f78b4', '#9699d3', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#4ac2c6', '#6a3d9a', '#b15928', '#dddd99', '#969696', '#123456'];
+    var colors = ['#1f78b4', '#9699d3', '#7ea75a', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#4ac2c6', '#6a3d9a', '#b15928', '#a8a869', '#686666', '#123456', '#33a02c'];
     for (i = 0; i < distinct.length; i++) {
         layercolor[distinct[i]] = colors[i];
     }
@@ -194,9 +192,11 @@ function loadedPlants(plants) {
     for (var key in layerInfo) {
         geoJsonLayers[key] = L.geoJson(plants, {
             pointToLayer: function(feature, latlng) {
+                feature.properties.radius = scale(feature.properties.capacity_mw);
                 var cMarker = new L.circleMarker(latlng, commonStyles);
                 markerMap[feature.properties.code] = cMarker;
                 return cMarker;
+
             },
             filter: function(feature) {
                 if (feature.properties.trueFuel == key) {
@@ -204,11 +204,10 @@ function loadedPlants(plants) {
                 }
             },
             style: function(feature) {
-                //var rad = feature.properties.capacity_mw
                 return {
                     color: '#c8c8c7',
                     fillColor: layercolor[feature.properties.trueFuel],
-                    radius: scale(feature.properties.capacity_mw)
+                    radius: feature.properties.radius
                 }
             }
         }).addTo(map);
@@ -217,12 +216,6 @@ function loadedPlants(plants) {
     for (var key in layercolor) {
         var testing = "<span style='color:" + layercolor[key] + "'>" + key + "</span>";
         sourcesLabels[testing] = geoJsonLayers[key];
-    }
-
-    //function used to calculate proportional radius based on fuel capacity
-    function getRadius(val) {
-        var radius = Math.sqrt(val / Math.PI);
-        return radius * .7;
     }
 
     //feature group for the spotlight so that we can clear the old spotlight when a new click is performed
