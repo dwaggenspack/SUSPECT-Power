@@ -314,6 +314,7 @@ function loadedPlants(plants) {
         }
 
         $(".borderpop").click(function() {
+            $('.clicked-plant').removeClass('clicked-plant');
             //Get the id of the marker
             var markID = $(this).attr('markerID');
             var marker = markerMap[markID];
