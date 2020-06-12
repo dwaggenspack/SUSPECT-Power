@@ -214,8 +214,8 @@ function loadedPlants(plants) {
     }
     var sourcesLabels = {};
     for (var key in layercolor) {
-        var testing = "<span style='color:" + layercolor[key] + "'>" + key + "</span>";
-        sourcesLabels[testing] = geoJsonLayers[key];
+        var layerKey = "<span style='color:" + layercolor[key] + "'>" + key + "</span>";
+        sourcesLabels[layerKey] = geoJsonLayers[key];
     }
 
     //feature group for the spotlight so that we can clear the old spotlight when a new click is performed
@@ -226,10 +226,16 @@ function loadedPlants(plants) {
         spotlightSearch(e);
     });
     map.on('overlayremove', function(e) {
-        spotlightSearch(currentLatLng);
+        if (!$("#plant-pane").hasClass("hide")) {
+            spotlightSearch(currentLatLng);
+
+        }
     });
     map.on('overlayadd', function(e) {
-        spotlightSearch(currentLatLng);
+        if (!$("#plant-pane").hasClass("hide")) {
+            spotlightSearch(currentLatLng);
+
+        }
     });
 
     TOC = L.control.layers(null, sourcesLabels, {
@@ -337,7 +343,7 @@ function loadedPlants(plants) {
             $(this).removeClass('divHighlight');
             marker.bringToFront().setStyle({
                 fillColor: layercolor[marker.feature.properties.trueFuel],
-                radius: 7
+                radius: marker.feature.properties.radius
             });
 
         });
@@ -391,12 +397,6 @@ function loadedPlants(plants) {
             $scrollTo.offset().top - $container.offset().top + $container.scrollTop()
         );
         $scrollTo.addClass('clicked-plant');
-
-        /* // Or you can animate the scrolling:
-        $container.animate({
-            scrollTop: $scrollTo.offset().top - $container.offset().top + $container.scrollTop()
-        });​ */
-        //console.log(e.layer.feature.properties.code);
     }
 
 
