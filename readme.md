@@ -2,7 +2,7 @@
 
 ## I. Introduction
 
-This map represents the geographic distribution of power generating plants accross the United States.  The map will be able to reveal the locations of these power plants and a user provided location.  
+This map represents the geographic distribution of power generating plants across the United States.  The map will be able to reveal the locations of these power plants and a user provided location.  
 
 The intended user of this map is those curious or caution about where they may be in relation to these plants.  It is essentially attempting to be a playful look at something that some in society would dread.  Worries about what ifs something went wrong, but at the same time, hoping they understand that these plants did not just pop into existence overnight.  Teaching them that knowing of a phenomena might uncloud the fears they may have had.
 
@@ -120,7 +120,7 @@ The map is be a web browser-based application accessible on non-Internet Explore
 Application is laid out to resize for many different landscape sizes.  Application allows for overflow scrolling on results panel without resizing the entire page to have to scroll where the map would not be visible.
 
 ### D. Thematic representation
-Plants are represented by CircleMarker symbols with colord dynamically chosen at application load from a preset array of colors.
+Plants are represented by CircleMarker symbols with colored dynamically chosen at application load from a preset array of colors.
 
 The radius of the CircleMarkers are based on the MegaWatt capacity of the plant scaled down to a radius between 4 and 12 using the d3.scaleSqrt() function and the d3.max and d3.min functions to find the maximum and minimum for the domains.
 
@@ -128,7 +128,7 @@ The radius of the CircleMarkers are based on the MegaWatt capacity of the plant 
 ### E. User interaction
 The user is able to pan and zoom around on the map using mouse inputs as well as the zoom control in the upper left of the map.  There is a slider control where the user can drag the thumb to increase or decrease the radius that the buffer query will use.  On the right side of the map is a layer control.  The fuel sources for the plants are listed in the color they were assigned on data load.  By clicking the checkboxes, the user is able to remove plants with fuel sources that they do not wish to query.  This also removes them from a query that has already run.  
 
-By either clicking anywhere on the map or entering an address into the search at the top left of the map, the selected point is be used in a query to populate a side panel with an interactive list of plants within a radius of the chosen point as well as display the total number of plants meeting the query critera.  Hovering over any item on the list of plants highlights the plant marker on the map.  
+By either clicking anywhere on the map or entering an address into the search at the top left of the map, the selected point is be used in a query to populate a side panel with an interactive list of plants within a radius of the chosen point as well as display the total number of plants meeting the query criteria.  Hovering over any item on the list of plants highlights the plant marker on the map.  
 
 While the query is active, clicking on the buffer opens a summary statistics panel, showing the total MegaWatt capacity of all the plants within the buffer as well as a breakdown of each individual fuel source and their contributions to the total.
 By hovering over a marker, a tooltip displays with information about the plant.  Clicking on a plant causes the right panel to automatically scroll to and highlight the appropriate plant listing.
@@ -140,5 +140,5 @@ I went with a mix between a light and dark color theme in an attempt to balance 
 
 ### G. Conclusion
 Provide a brief (one or two paragraphs) statement to conclude the proposal. This will likely be restating what you said in the introduction, but also (re)consider the format we used in the first assignment (a topic with a motivating question).
-As I mentioned before, this map represents a geographic distribution of power plants accross the United States.  
+As I mentioned before, this map represents a geographic distribution of power plants across the United States.  
 I was able to test it with multiple users who all had positive reaction.  Most had the reaction I was going for, they looked up their house address and those of friends, and started a discussion about how close some of these plants were and that they "had no idea" that there were so many nearby.
