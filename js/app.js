@@ -375,7 +375,7 @@ function loadedPlants(plants) {
         var popup = "<b style='color:" + layercolor[key] + "'>" + plantProp.plant_name + "</b>" +
             fuelSourceStr;
 
-        popup += "<br>This plant is <b>" + (distance * 0.62137119).toLocaleString() + " miles</b> from the original point.";
+        popup += "<br>This plant is <b>" + (distance * 0.62137119).toFixed(2) + " miles</b> from the original point.";
         //popup += "<br><br><b>BONUS:</b> The <b>" + plantProp.nearestRiver + "</b> is the nearest river in Lousiana and is <b>" + plantProp.riverDistance + " miles</b> from this facility.";
         return popup;
     }
@@ -384,10 +384,16 @@ function loadedPlants(plants) {
     function buildSpotPopup(plantTots) {
 
         var popup = "<b>Summary Statistics</b>";
+        var MWTotal = 0;
         //go through the keys for fuels source and build the string to show the power capacity for multiple fuel types.
         for (var key in plantTots) {
             popup += "<br><b style='color:" + layercolor[key] + "'>" + key + "</b>: " + plantTots[key].toLocaleString() + " MW"
+            MWTotal += plantTots[key];
         }
+
+        popup += "<br><b>Total Capacity</b>: " + MWTotal.toLocaleString() + " MW";
+
+
         return popup;
     }
 
