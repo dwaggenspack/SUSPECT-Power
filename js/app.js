@@ -82,7 +82,7 @@ function loadedPlants(plants) {
         }
     };
 
-    var TOC;
+    var LayerSelect;
 
     //var results = L.layerGroup().addTo(map);
 
@@ -239,9 +239,11 @@ function loadedPlants(plants) {
         }
     });
 
-    TOC = L.control.layers(null, sourcesLabels, {
+    LayerSelect = L.control.layers(null, sourcesLabels, {
         collapsed: false
     }).addTo(map);
+    console.log(document.querySelector(".leaflet-control-layers-overlays").id = "layerTOC");
+    $('#layerTOC').prepend("<p>This is a test.</p>");
 
     //function to handle spotlight and search for power plants
     function spotlightSearch(chosenPoint) {
