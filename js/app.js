@@ -1,4 +1,6 @@
 const powerplants = d3.json('data/plants.geojson');
+
+//wait until our power plants data loads before we try to use it.
 Promise.all([powerplants]).then(function(data) {
     loadedPlants(data[0]);
 });
@@ -82,14 +84,11 @@ function loadedPlants(plants) {
         }
     };
 
+    //created to hold our layers control.
     var TOC;
-
-    //var results = L.layerGroup().addTo(map);
 
     //function to handle the results of an address search
     searchControl.on('results', function(data) {
-
-        //results.clearLayers();
         spotlightSearch(data.results[0]);
 
     });
@@ -250,8 +249,6 @@ function loadedPlants(plants) {
         //variable to hold buffer distance entered
         var bufferKm = $("#slide").val() * 1.609344;
         //prep the sidebar for some knowledge!
-        //$("#info-pane").addClass("hide-me");
-        //$("#results-pane").html("<h2>Plants within search area:</h2><div id='plant-search-results'></div><br>");
         $('#plant_total').html("");
         $("#plant-search-results").html("");
         SpotGroup.clearLayers();
@@ -376,7 +373,6 @@ function loadedPlants(plants) {
             fuelSourceStr;
 
         popup += "<br>This plant is <b>" + (distance * 0.62137119).toFixed(2) + " miles</b> from the original point.";
-        //popup += "<br><br><b>BONUS:</b> The <b>" + plantProp.nearestRiver + "</b> is the nearest river in Lousiana and is <b>" + plantProp.riverDistance + " miles</b> from this facility.";
         return popup;
     }
 

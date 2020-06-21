@@ -126,14 +126,14 @@ The radius of the CircleMarkers are based on the MegaWatt capacity of the plant 
 
 
 ### E. User interaction
-The user is able to pan and zoom around on the map using mouse inputs as well as the zoom control in the upper left of the map.  There is a slider control where the user can drag the thumb to increase or decrease the radius that the buffer query will use.  On the right side of the map is a layer control.  The fuel sources for the plants are listed in the color they were assigned on data load.  By clicking the checkboxes, the user is able to remove plants with fuel sources that they do not wish to query.  This also removes them from a query that has already run.  
+The user is able to pan and zoom around on the map using mouse inputs as well as the zoom control in the upper left of the map.  There is a slider control where the user can drag the thumb to increase or decrease the radius that the buffer query will use.  On the right side of the map is a layer control.  The fuel sources for the plants are listed in the color they were assigned on data load.  By clicking the checkboxes, the user is able to remove plants with fuel sources that they do not wish to query.  This also removes them from a query that has already run.
 
 By either clicking anywhere on the map or entering an address into the search at the top left of the map, the selected point is be used in a query to populate a side panel with an interactive list of plants within a radius of the chosen point as well as display the total number of plants meeting the query criteria.  Hovering over any item on the list of plants highlights the plant marker on the map.  
 
 While the query is active, clicking on the buffer opens a summary statistics panel, showing the total MegaWatt capacity of all the plants within the buffer as well as a breakdown of each individual fuel source and their contributions to the total.
 By hovering over a marker, a tooltip displays with information about the plant.  Clicking on a plant causes the right panel to automatically scroll to and highlight the appropriate plant listing.
 
-The back button resets the map to a pre-query state, resetting the side panel with the intro instructions, removing the query buffer layer, and showing the fuel layers chosen by the user.
+The back button resets the map to a pre-query state by zooming the map back to the initial zoom level and position, resetting the side panel with the intro instructions, removing the query buffer layer, and showing the fuel layers chosen by the user.
 
 ### F. Aesthetics and design considerations
 I went with a mix between a light and dark color theme in an attempt to balance readability of both text and symbols as well as offering a good contrast.  By this balance, I was trying to establish a neutral tone.
