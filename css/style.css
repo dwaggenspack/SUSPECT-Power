@@ -162,3 +162,22 @@ h2 {
     font-family: 'PT Serif', serif;
     font-size: 1.2em;
 }
+
+#sel-button {
+    border: none;
+    /* text-decoration: none; */
+    display: inline-block;
+    padding: 4px 8px;
+    margin-top: 3px;
+}
+
+#sel-button:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+#sel-button:active {
+    /* A bit of an Easter egg: Kentucky Colors */
+    background-color: #0033a0;
+    color: white;
+}

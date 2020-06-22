@@ -144,6 +144,10 @@ function loadedPlants(plants) {
 
     //hold the markers for quick jquery lookup
     var markerMap = {};
+    var btnSelectDeselect = document.createElement("BUTTON"); // Create a <button> element
+    btnSelectDeselect.id = "sel-button";
+    btnSelectDeselect.innerHTML = "Select/Delect All";
+    btnSelectDeselect.onclick = function() { updateLayersList(LayerSelect); };
 
     //get all of our keys for fuel source
     var distinct = [];
@@ -231,6 +235,7 @@ function loadedPlants(plants) {
             spotlightSearch(currentLatLng);
 
         }
+
     });
     map.on('overlayadd', function(e) {
         if (!$("#plant-pane").hasClass("hide")) {
@@ -242,8 +247,10 @@ function loadedPlants(plants) {
     LayerSelect = L.control.layers(null, sourcesLabels, {
         collapsed: false
     }).addTo(map);
-    console.log(document.querySelector(".leaflet-control-layers-overlays").id = "layerTOC");
-    $('#layerTOC').prepend("<p>This is a test.</p>");
+
+
+    document.querySelector(".leaflet-control-layers-overlays").id = "layerTOC";
+    $('#layerTOC').prepend(btnSelectDeselect);
 
     //function to handle spotlight and search for power plants
     function spotlightSearch(chosenPoint) {
@@ -404,6 +411,30 @@ function loadedPlants(plants) {
         );
         $scrollTo.addClass('clicked-plant');
     }
+
+    function updateLayersList(layerControl) {
+        var turnAllOff = true;
+        for (var layer in geoJsonLayers) {
+            if (map.hasLayer(geoJsonLayers[layer]) == false) {
+                turnAllOff = false;
+                break;
+            }
+        };
+        if (turnAllOff == true) {
+            for (var layer in geoJsonLayers) {
+                geoJsonLayers[layer].remove();
+            };
+        } else {
+            for (var layer in geoJsonLayers) {
+                geoJsonLayers[layer].addTo(map);
+            };
+        }
+        //update newly changed layers
+        LayerSelect._update();
+        //add our button back
+        $('#layerTOC').prepend(btnSelectDeselect);
+
+    };
 
 
 }
